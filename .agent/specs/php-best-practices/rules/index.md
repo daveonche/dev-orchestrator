@@ -20,20 +20,20 @@ and flag the gap rather than guessing current API details.
 
 - modern-constructor-promotion: distilled
 - modern-match-expression: distilled
-- modern-named-arguments: pending
-- modern-nullsafe-operator: pending
+- modern-named-arguments: distilled
+- modern-nullsafe-operator: distilled
 - modern-attributes: distilled
 - modern-enums: distilled
 - modern-enums-methods: distilled
-- modern-readonly-properties: pending
+- modern-readonly-properties: distilled
 - modern-first-class-callables: distilled
 - modern-arrow-functions: distilled
-- modern-readonly-classes: pending
-- modern-typed-constants: pending
-- modern-override-attribute: pending
-- modern-property-hooks: pending
+- modern-readonly-classes: distilled
+- modern-typed-constants: distilled
+- modern-override-attribute: distilled
+- modern-property-hooks: distilled
 - modern-asymmetric-visibility: distilled
-- modern-pipe-operator: pending
+- modern-pipe-operator: distilled
 
 ## PSR Standards
 
