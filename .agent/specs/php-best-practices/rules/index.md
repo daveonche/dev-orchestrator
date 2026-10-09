@@ -1,0 +1,77 @@
+# PHP Best Practices Rules Index
+
+Descriptive topic map for `rules/`. Status per topic: `pending` means
+the distilled file does not exist yet — continue on general knowledge
+and flag the gap rather than guessing current API details.
+
+## Type System
+
+- type-strict-mode: pending
+- type-return-types: pending
+- type-parameter-types: pending
+- type-property-types: pending
+- type-union-types: pending
+- type-intersection-types: pending
+- type-nullable-types: pending
+- type-void-never: pending
+- type-mixed-avoid: pending
+
+## Modern PHP Features
+
+- modern-constructor-promotion: pending
+- modern-match-expression: pending
+- modern-named-arguments: pending
+- modern-nullsafe-operator: pending
+- modern-attributes: pending
+- modern-enums: pending
+- modern-enums-methods: pending
+- modern-readonly-properties: pending
+- modern-first-class-callables: pending
+- modern-arrow-functions: pending
+- modern-readonly-classes: pending
+- modern-typed-constants: pending
+- modern-override-attribute: pending
+- modern-property-hooks: pending
+- modern-asymmetric-visibility: pending
+- modern-pipe-operator: pending
+
+## PSR Standards
+
+- psr-4-autoloading: pending
+- psr-12-coding-style: pending
+- psr-naming-classes: pending
+- psr-naming-methods: pending
+- psr-file-structure: pending
+- psr-namespace-usage: pending
+
+## SOLID Principles
+
+- solid-srp: pending
+- solid-ocp: pending
+- solid-lsp: pending
+- solid-isp: pending
+- solid-dip: pending
+
+## Error Handling
+
+- error-custom-exceptions: pending
+- error-exception-hierarchy: pending
+- error-try-catch-specific: pending
+- error-finally-cleanup: pending
+- error-never-suppress: pending
+
+## Performance
+
+- perf-avoid-globals: pending
+- perf-lazy-loading: pending
+- perf-array-functions: pending
+- perf-string-functions: pending
+- perf-generators: pending
+
+## Security
+
+- sec-input-validation: pending
+- sec-output-escaping: pending
+- sec-password-hashing: pending
+- sec-sql-prepared: pending
+- sec-file-uploads: pending
