@@ -6,15 +6,15 @@ and flag the gap rather than guessing current API details.
 
 ## Type System
 
-- type-strict-mode: pending
-- type-return-types: pending
-- type-parameter-types: pending
-- type-property-types: pending
-- type-union-types: pending
-- type-intersection-types: pending
-- type-nullable-types: pending
-- type-void-never: pending
-- type-mixed-avoid: pending
+- type-strict-mode: distilled
+- type-return-types: distilled
+- type-parameter-types: distilled
+- type-property-types: distilled
+- type-union-types: distilled
+- type-intersection-types: distilled
+- type-nullable-types: distilled
+- type-void-never: distilled
+- type-mixed-avoid: distilled
 
 ## Modern PHP Features
 
