@@ -18,21 +18,21 @@ and flag the gap rather than guessing current API details.
 
 ## Modern PHP Features
 
-- modern-constructor-promotion: pending
-- modern-match-expression: pending
+- modern-constructor-promotion: distilled
+- modern-match-expression: distilled
 - modern-named-arguments: pending
 - modern-nullsafe-operator: pending
-- modern-attributes: pending
-- modern-enums: pending
-- modern-enums-methods: pending
+- modern-attributes: distilled
+- modern-enums: distilled
+- modern-enums-methods: distilled
 - modern-readonly-properties: pending
-- modern-first-class-callables: pending
-- modern-arrow-functions: pending
+- modern-first-class-callables: distilled
+- modern-arrow-functions: distilled
 - modern-readonly-classes: pending
 - modern-typed-constants: pending
 - modern-override-attribute: pending
 - modern-property-hooks: pending
-- modern-asymmetric-visibility: pending
+- modern-asymmetric-visibility: distilled
 - modern-pipe-operator: pending
 
 ## PSR Standards
