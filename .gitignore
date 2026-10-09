@@ -56,3 +56,6 @@ __pycache__/
 *.pyc
 .venv/
 *.egg-info/
+
+# Scratch clone area for external reference material (never tracked)
+tmp/
