@@ -284,6 +284,22 @@ over many files), wasting a round-trip and losing the evidence.
 Example: `git --no-pager grep -n "pattern" -- tests/`, never bare
 `git grep ...`.
 
+**Log redirect for verbose output (hard rule):** Any command that can
+flood the context (builds, test suites, dependency installs, log dumps)
+MUST redirect all output into the gitignored `.log/` directory and emit
+only a status line, grepping a short failure tail from the log on
+failure instead of letting raw output enter context. Always prefix the
+redirect with `mkdir -p .log &&` so it cannot fail on a missing
+directory. Pattern:
+
+```bash
+mkdir -p .log && [command] > .log/[name].log 2>&1 && echo OK || { echo FAILED; grep -nE "ERROR|E: |404" .log/[name].log | tail -n 20; }
+```
+
+Replace `[command]` and `[name]` with the actual values; the `OK`/`FAILED`
+status line (plus at most the grep tail on failure) is the only output
+that enters context.
+
 When asking the user to run verification commands, output each command
 in a fenced code block tagged with a shell language (for example, `bash`),
 with no prefix such as `/run`, so aider recognizes it in the response
