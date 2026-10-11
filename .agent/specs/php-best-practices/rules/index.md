@@ -46,11 +46,11 @@ and flag the gap rather than guessing current API details.
 
 ## SOLID Principles
 
-- solid-srp: pending
-- solid-ocp: pending
-- solid-lsp: pending
-- solid-isp: pending
-- solid-dip: pending
+- solid-srp: distilled
+- solid-ocp: distilled
+- solid-lsp: distilled
+- solid-isp: distilled
+- solid-dip: distilled
 
 ## Error Handling
 
