@@ -10,7 +10,7 @@
     "license": "MIT"
   },
   "distillation": {
-    "date": "2026-10-09",
+    "date": "2026-10-11",
     "rules_total": 51,
     "categories": [
       {"name": "Type System", "prefix": "type", "impact": "CRITICAL", "rules": 9},
