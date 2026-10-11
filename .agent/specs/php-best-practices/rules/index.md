@@ -70,8 +70,8 @@ and flag the gap rather than guessing current API details.
 
 ## Security
 
-- sec-input-validation: pending
-- sec-output-escaping: pending
-- sec-password-hashing: pending
-- sec-sql-prepared: pending
-- sec-file-uploads: pending
+- sec-input-validation: distilled
+- sec-output-escaping: distilled
+- sec-password-hashing: distilled
+- sec-sql-prepared: distilled
+- sec-file-uploads: distilled
