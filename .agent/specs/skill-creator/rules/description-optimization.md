@@ -57,9 +57,9 @@ version).
 Warn the user it takes time; run in the background and check
 periodically, reporting iteration and scores. The upstream loop
 script (see the pack Source note) takes the eval set, skill path,
-model ID, and max iterations; use the model ID powering the current
-session so the trigger test matches what the user actually
-experiences. It splits 60/40 train/test, evaluates the current
+model ID, and max iterations; use the model identifier of the
+user's aider session so the trigger test matches what the user
+actually experiences. It splits 60/40 train/test, evaluates the current
 description (3 runs per query for a reliable trigger rate), proposes
 improvements from failures, and re-evaluates each new description on
 both sets, up to the iteration cap. It returns JSON with
