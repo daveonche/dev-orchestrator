@@ -4,6 +4,6 @@ Last updated: 2026-10-11
 
 ## Active Workflow
 
-- Last completed: workflow-pack-standard.md + routing row applied; upstream pinned dbd4588f (2026-10-09); skill-creator scope: SKILL.md+references distilled to rules/, agents/assets/eval-viewer/scripts verbatim under references/, LICENSE.txt excluded
-- Next: run Batch A copy commands, confirm droppables, then /read-only tmp/skills/skills/skill-creator/SKILL.md for Batch B rules drafting
-- Reload to resume: .agent/AGENTS.md .agent/specs/references/spec-pack-standard.md .agent/workflows/testing/unit-test/SKILL.md
+- Last completed: skill-creator pack applied: SKILL.md delta fixes (do not add general; version-specific guidance + continue-on-general-knowledge fallback), 8 rules/ files incl. deepened blind-comparison, SKILL.meta.md; routing row committed 9f41a13
+- Next: run python3 -m pytest tests/test_s4_2_step1.py; on green commit the pack files, then clear this Active Workflow section
+- Reload to resume: .agent/AGENTS.md .agent/specs/references/spec-pack-standard.md .agent/specs/skill-creator/SKILL.md

@@ -15,9 +15,12 @@ distilled into `rules/`; the upstream `agents/`, `assets/`,
 this repo's workflow approach needs the conventions, not the bundled
 tooling. `LICENSE.txt` is excluded.
 **Scope:** the skill authoring and evaluation process for any skill
-target. When the target is an `.agent/workflows/` or `.agent/specs/`
-pack, the repo standards override upstream layout guidance — see
-`rules/agent-pack-mapping.md`.
+target. This pack is delta conventions only — do not add general
+framework knowledge to these rules; upstream skill-creator craft is
+the general knowledge base, and `rules/` record only what adapts it
+to this repository. When the target is an `.agent/workflows/` or
+`.agent/specs/` pack, the repo standards override upstream layout
+guidance — see `rules/agent-pack-mapping.md`.
 
 **Convention Check Reminder:** Before creating or editing any file, check the Conventions Reference Routing table in `.agent/AGENTS.md` and load the matching reference via `/read-only` before proceeding.
 
@@ -41,6 +44,11 @@ bundled tooling into target skills unless the user asks.
 2. Target detection: is the skill new or an update? Is the target a
    standalone skill or an `.agent/` pack? Route `.agent/` targets
    through `rules/agent-pack-mapping.md` before drafting.
+3. Version-specific guidance: `rules/` topics apply only to the latest
+   stable upstream version the manifest records; direct legacy-version
+   work to the upgrade notes to upgrade first. When referenced material
+   is absent, the assistant continues on general knowledge rather than
+   blocking.
 
 ## Rules index
 
