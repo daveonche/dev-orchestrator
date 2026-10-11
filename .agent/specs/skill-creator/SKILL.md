@@ -16,11 +16,12 @@ this repo's workflow approach needs the conventions, not the bundled
 tooling. `LICENSE.txt` is excluded.
 **Scope:** the skill authoring and evaluation process for any skill
 target. This pack is delta conventions only — do not add general
-framework knowledge to these rules; upstream skill-creator craft is
-the general knowledge base, and `rules/` record only what adapts it
-to this repository. When the target is an `.agent/workflows/` or
-`.agent/specs/` pack, the repo standards override upstream layout
-guidance — see `rules/agent-pack-mapping.md`.
+framework knowledge or API references to these rules; upstream
+skill-creator craft is the general knowledge base, and `rules/`
+record only what adapts it to this repository. When the target is an
+`.agent/workflows/` or `.agent/specs/` pack, the repo standards
+override upstream layout guidance — see
+`rules/agent-pack-mapping.md`.
 
 **Convention Check Reminder:** Before creating or editing any file, check the Conventions Reference Routing table in `.agent/AGENTS.md` and load the matching reference via `/read-only` before proceeding.
 
@@ -58,7 +59,7 @@ bundled tooling into target skills unless the user asks.
 - `rules/running-and-evaluating-test-cases.md` — workspace layout, parallel with-skill/baseline runs, assertions, timing capture, grading fields (`text`/`passed`/`evidence`), benchmark aggregation, and presenting results for human review before revising.
 - `rules/improving-the-skill.md` — generalizing feedback, prompt leanness, iteration loop, stopping criteria.
 - `rules/description-optimization.md` — trigger-eval design (should-trigger coverage and near-miss negatives), optimization loop, applying results.
-- `rules/environment-adaptations.md` — Claude.ai and Cowork deltas, packaging a skill folder into a `.skill` archive, updating installed skills.
+- `rules/environment-adaptations.md` — aider mechanics for this repository (independent run processes, timing capture, eval viewer, trigger-test runner), packaging a skill folder into a `.skill` archive, updating installed skills.
 - `rules/blind-comparison.md` — optional blind A/B via the comparator and analyzer agent briefs, distilled.
 
 ## References index
@@ -71,9 +72,8 @@ bundled tooling into target skills unless the user asks.
   yourself; review precedes revision.
 - Spawn with-skill and baseline runs in the same turn, never
   sequentially.
-- Capture run timing (tokens, duration) as each run completes; it
-  arrives only through task notifications and is not persisted
-  elsewhere.
+- Capture run timing (tokens, duration) as each run completes;
+  nothing else persists it.
 - Grading expectation fields are exactly `text`, `passed`,
   `evidence`; downstream tooling depends on those names.
 - Do not force assertions onto subjective outputs; evaluate those

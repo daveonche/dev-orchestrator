@@ -1,38 +1,33 @@
 # Environment Adaptations
 
 The core loop (draft → test → review → improve → repeat) is the same
-everywhere; the mechanics change by environment.
+everywhere; the mechanics here are aider's, in this repository.
 
-## Claude.ai
+## Aider (this repository)
 
-- No subagents: run test cases yourself, one at a time, following
-  the skill's SKILL.md for each prompt. Less rigorous (you wrote the
-  skill and you're running it), but a useful sanity check; the human
-  review step compensates.
-- Skip baseline runs and quantitative benchmarking — baselines are
-  meaningless without subagents; rely on qualitative feedback.
-- No browser/display: skip the browser viewer; present prompt and
-  output inline per test case. Save output files the user needs
-  (e.g., .docx, .xlsx) to the filesystem and say where they are.
-- Description optimization needs the `claude` CLI (`claude -p`) —
-  skip it.
-- Blind comparison needs subagents — skip it.
-- Packaging works: run the packaging script; the user downloads the
-  resulting `.skill` file.
-
-## Cowork
-
-- Subagents work; on severe timeouts, run test prompts in series.
-- No browser/display: generate the eval viewer with `--static
-  <output_path>` as a standalone HTML file and proffer the link.
-- Always generate the eval viewer before evaluating outputs yourself
-  — get examples in front of the human first.
-- Feedback: the viewer's submit button downloads `feedback.json`;
-  read it from the download (requesting access if needed).
-- Packaging works (Python + filesystem).
-- Description optimization works (it shells out to `claude -p`) —
-  but run it only after the skill is finished and the user agrees
-  it's in good shape.
+- No subagents: run each test case as a separate aider process
+  (`aider --message "<eval prompt>"`) so with-skill and baseline runs
+  stay independent; launch an iteration's runs together so they
+  finish around the same time. In-session, one-at-a-time runs are the
+  fallback when separate processes are impractical — less rigorous
+  (you wrote the skill and you're running it), but a useful sanity
+  check; the human review step compensates.
+- Timing: nothing reports token counts or durations automatically —
+  wrap each run (or read the runner's report) and record
+  `total_tokens` and wall-clock duration to `timing.json` as each run
+  completes.
+- Eval viewer: run the upstream `generate_review.py` and open the
+  HTML it writes; use `--static <output_path>` when no display is
+  available. Feedback downloads as `feedback.json` — read it from the
+  download for the next iteration.
+- Description optimization: the upstream loop script expects its
+  bundled CLI runner; drive the trigger test with the aider CLI
+  instead (`aider --model <model> --message "<query>"`), or skip the
+  step if no equivalent runner is available. Run it only after the
+  skill is finished and the user agrees it's in good shape.
+- Blind comparison: run the comparator and analyzer as separate aider
+  processes (see `rules/blind-comparison.md`).
+- Packaging works anywhere with Python and a filesystem.
 
 ## Updating an installed skill
 

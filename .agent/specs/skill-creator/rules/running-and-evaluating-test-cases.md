@@ -48,10 +48,11 @@ force assertions onto them.
 
 ## Capture timing as each run completes
 
-Run notifications carry `total_tokens` and `duration_ms`; save them
-immediately to `timing.json` in the run directory — this data arrives
-only through the notification and is not persisted elsewhere.
-Process notifications as they arrive rather than batching.
+Record each run's `total_tokens` and wall-clock duration to
+`timing.json` in the run directory as the run finishes — wrap each
+run in a timing wrapper or read the runner's report; nothing else
+persists this data. Capture it as each run completes rather than
+batching at the end.
 
 ```json
 {

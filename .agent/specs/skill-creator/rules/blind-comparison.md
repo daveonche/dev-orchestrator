@@ -4,15 +4,16 @@ For a more rigorous comparison between two skill versions (e.g., "is
 the new version actually better?") than human review provides: give
 two outputs to an independent agent without telling it which skill
 produced which, let it judge quality, then analyze why the winner
-won. Requires subagents; most users don't need it — the human review
-loop is usually sufficient.
+won. Requires independent agent runs (separate aider processes);
+most users don't need it — the human review loop is usually
+sufficient.
 
 ## Comparator pass (blind)
 
-Spawn a comparator subagent with the upstream `agents/comparator.md`
-brief (pinned at dbd4588f), giving it: output A path, output B path,
-the eval prompt, and the expectations list (optional). The brief
-instructs it to:
+Run a comparator agent in a separate aider process with the upstream
+`agents/comparator.md` brief (pinned at dbd4588f), giving it: output
+A path, output B path, the eval prompt, and the expectations list
+(optional). The brief instructs it to:
 
 - Judge purely on output quality — never try to infer which skill
   produced which output.
@@ -31,10 +32,10 @@ instructs it to:
 
 ## Analyzer pass (unblind)
 
-Spawn an analyzer subagent with the upstream `agents/analyzer.md`
-brief, giving it: the winning side (A/B), both skill paths and
-transcript paths, the comparison result, and an output path. The
-brief instructs it to:
+Run an analyzer agent in a separate aider process with the upstream
+`agents/analyzer.md` brief, giving it: the winning side (A/B), both
+skill paths and transcript paths, the comparison result, and an
+output path. The brief instructs it to:
 
 - Read both skills and both transcripts; compare instruction
   following (score 1-10 with specific issues), tool usage, divergence

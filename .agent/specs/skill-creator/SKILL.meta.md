@@ -56,7 +56,7 @@ content; the entry file and `rules/` carry the conventions themselves.
 
 - Subjective outputs resist quantitative assertions
 - Trigger evals mis-scoped (too-easy negatives, thin positives)
-- Environment deltas (Claude.ai, Cowork) change the mechanics
+- Runner differences (separate processes vs in-session) change the mechanics
 - Reference drift from upstream skill-creator evolution
 
 ## Recommended Mitigation Strategies
@@ -74,7 +74,7 @@ content; the entry file and `rules/` carry the conventions themselves.
 
 ## Version
 
-- Current Version: 1.0.0
+- Current Version: 1.0.1
 - Last Updated: 2026-10-11
 - Stability: Experimental
 
