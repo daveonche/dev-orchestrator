@@ -62,11 +62,11 @@ and flag the gap rather than guessing current API details.
 
 ## Performance
 
-- perf-avoid-globals: pending
-- perf-lazy-loading: pending
-- perf-array-functions: pending
-- perf-string-functions: pending
-- perf-generators: pending
+- perf-avoid-globals: distilled
+- perf-lazy-loading: distilled
+- perf-array-functions: distilled
+- perf-string-functions: distilled
+- perf-generators: distilled
 
 ## Security
 
