@@ -100,6 +100,7 @@ task touches. Before creating or editing any file, check this mapping:
 | A framework identified by Project Framework Detection | The matching framework pack's `SKILL.md` in `.agent/specs/` (e.g., `elgg/SKILL.md`, `rails/SKILL.md`) |
 | `*.php` files or PHP language-level guidance (also linked from framework packs' Language pack sections) | `.agent/specs/php-best-practices/SKILL.md` |
 | Creating or editing anything under `.agent/specs/` (packs, `SKILL.md`, `SKILL.meta.md`, `rules/`, pack `references/`) | `.agent/specs/references/spec-pack-standard.md` |
+| Creating or editing anything under `.agent/workflows/` (`SKILL.md`, `SKILL.meta.md`, `references/`) | `.agent/specs/references/workflow-pack-standard.md` |
 
 Routing rules:
 
