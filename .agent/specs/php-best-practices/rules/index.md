@@ -37,12 +37,12 @@ and flag the gap rather than guessing current API details.
 
 ## PSR Standards
 
-- psr-4-autoloading: pending
-- psr-12-coding-style: pending
-- psr-naming-classes: pending
-- psr-naming-methods: pending
-- psr-file-structure: pending
-- psr-namespace-usage: pending
+- psr-4-autoloading: distilled
+- psr-12-coding-style: distilled
+- psr-naming-classes: distilled
+- psr-naming-methods: distilled
+- psr-file-structure: distilled
+- psr-namespace-usage: distilled
 
 ## SOLID Principles
 
