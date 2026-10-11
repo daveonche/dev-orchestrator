@@ -54,11 +54,11 @@ and flag the gap rather than guessing current API details.
 
 ## Error Handling
 
-- error-custom-exceptions: pending
-- error-exception-hierarchy: pending
-- error-try-catch-specific: pending
-- error-finally-cleanup: pending
-- error-never-suppress: pending
+- error-custom-exceptions: distilled
+- error-exception-hierarchy: distilled
+- error-try-catch-specific: distilled
+- error-finally-cleanup: distilled
+- error-never-suppress: distilled
 
 ## Performance
 
