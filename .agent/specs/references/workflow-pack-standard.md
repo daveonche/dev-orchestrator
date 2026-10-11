@@ -21,8 +21,13 @@ this document in sync.
 │       ├── SKILL.md            # staged prompt entry point
 │       ├── SKILL.meta.md       # metadata companion
 │       └── references/         # on-demand supporting material
+│           ├── gotchas.md      # load before starting
+│           ├── templates.md    # exact output and configuration templates
+│           └── rules.md        # consolidated rules
 └── phases/
-    └── <chain-name>/SKILL.md   # chain entry point ($workflows-<name>-chain)
+    └── <chain-name>/
+        ├── SKILL.md            # chain entry point ($workflows-<name>-chain)
+        └── SKILL.meta.md       # metadata companion
 ```
 
 - Category directories are lowercase (`core/`, `code/`, `testing/`).
