@@ -16,11 +16,11 @@ this repo's workflow approach needs the conventions, not the bundled
 tooling. `LICENSE.txt` is excluded.
 **Scope:** the skill authoring and evaluation process for any skill
 target. This pack is delta conventions only — do not add general
-framework knowledge or API references to these rules; upstream
-skill-creator craft is the general knowledge base, and `rules/`
-record only what adapts it to this repository. When the target is an
-`.agent/workflows/` or `.agent/specs/` pack, the repo standards
-override upstream layout guidance — see
+framework knowledge, API references, or tutorials to these rules;
+upstream skill-creator craft is the general knowledge base, and
+`rules/` record only what adapts it to this repository. When the
+target is an `.agent/workflows/` or `.agent/specs/` pack, the repo
+standards override upstream layout guidance — see
 `rules/agent-pack-mapping.md`.
 
 **Convention Check Reminder:** Before creating or editing any file, check the Conventions Reference Routing table in `.agent/AGENTS.md` and load the matching reference via `/read-only` before proceeding.

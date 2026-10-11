@@ -74,7 +74,7 @@ content; the entry file and `rules/` carry the conventions themselves.
 
 ## Version
 
-- Current Version: 1.0.1
+- Current Version: 1.0.2
 - Last Updated: 2026-10-11
 - Stability: Experimental
 
