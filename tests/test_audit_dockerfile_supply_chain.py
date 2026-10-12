@@ -1,8 +1,9 @@
 """Reproducer tests for the Dockerfile.aider supply-chain audit findings.
 
-Each test asserts the *secure* behavior; all three fail against the pre-fix
+Each test asserts the *secure* behavior; all four fail against the pre-fix
 Dockerfile (remote script piped to bash, unverified ShellCheck tarball,
-floating mermaid-cli range) and pass once the fixes are applied.
+floating mermaid-cli range, unverified actionlint tarball) and pass once
+the fixes are applied.
 """
 
 import re
@@ -49,3 +50,23 @@ def test_finding3_mermaid_cli_exact_pinned():
     text = _dockerfile_text()
     assert "@mermaid-js/mermaid-cli@11.17.0" in text, "mermaid-cli must be exact-pinned"
     assert "@mermaid-js/mermaid-cli@^" not in text, "floating caret range must go"
+
+
+def test_finding4_actionlint_tarball_checksum_gated():
+    text = _dockerfile_text()
+    assert "ARG ACTIONLINT_VERSION=1.7.7" in text, "actionlint must be exact-pinned"
+    for arch in ("AMD64", "ARM64"):
+        match = re.search(rf"ARG ACTIONLINT_SHA256_{arch}=(\S+)", text)
+        assert match is not None, f"missing per-arch ARG ACTIONLINT_SHA256_{arch}"
+        assert re.fullmatch(
+            r"[0-9a-f]{64}", match.group(1)
+        ), f"ACTIONLINT_SHA256_{arch} must be a real SHA256 digest, not a placeholder"
+    download = text.find(
+        'curl -fsSL "https://github.com/rhysd/actionlint/releases/download'
+    )
+    verify = text.find("sha256sum -c -", download)
+    extract = text.find("tar -xzf /tmp/actionlint.tar.gz")
+    assert -1 not in (download, verify, extract), "download/verify/extract step missing"
+    assert (
+        download < verify < extract
+    ), "checksum gate must run after the download and before extraction"
