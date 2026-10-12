@@ -88,6 +88,7 @@ the pin nature each follows.
 | Component | Pin | Nature | Used in |
 | :--- | :--- | :--- | :--- |
 | ShellCheck | `v0.10.0` static binary | exact, SHA256-gated per arch (GitHub release download) | `.agent/Dockerfile.aider` Layer D2 |
+| actionlint | `1.7.12` static binary | exact, SHA256-gated per arch (GitHub release download) | `.agent/Dockerfile.aider` Layer D2b |
 | pytest | `8.3.5` (pip into `/venv`) | exact, matches `.agent/pyproject.toml` | `.agent/Dockerfile.aider` Layer D3 |
 | `sentence-transformers/all-MiniLM-L6-v2` | pre-baked to `/opt/hf-cache` | model name; revision resolves at build | `.agent/Dockerfile.aider` Layer B |
 | Node.js | `22.x` via NodeSource apt repo (`node_22.x`) | major line | `.agent/Dockerfile.aider` Layer C |
