@@ -17,6 +17,12 @@ SHELLCHECK_DIGESTS = (
     "1c89cb51e1412b580d7ba8aac240251ffb0b829788f83d2daa4a82da42d275e4",  # armv6hf
 )
 
+ACTIONLINT_DIGESTS = (
+    "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8",  # amd64
+    "325e971b6ba9bfa504672e29be93c24981eeb1c07576d730e9f7c8805afff0c6",  # arm64
+    "ae4a0a5227578e66f5d00ee02788d5c64fdae1fa6484ab88ceaeee9359c28fa4",  # armv6
+)
+
 
 def _dockerfile_text() -> str:
     return DOCKERFILE.read_text(encoding="utf-8")
@@ -54,13 +60,13 @@ def test_finding3_mermaid_cli_exact_pinned():
 
 def test_finding4_actionlint_tarball_checksum_gated():
     text = _dockerfile_text()
-    assert "ARG ACTIONLINT_VERSION=1.7.7" in text, "actionlint must be exact-pinned"
-    for arch in ("AMD64", "ARM64"):
+    assert "ARG ACTIONLINT_VERSION=1.7.12" in text, "actionlint must be exact-pinned"
+    for arch in ("AMD64", "ARM64", "ARMV6"):
         match = re.search(rf"ARG ACTIONLINT_SHA256_{arch}=(\S+)", text)
         assert match is not None, f"missing per-arch ARG ACTIONLINT_SHA256_{arch}"
-        assert re.fullmatch(
-            r"[0-9a-f]{64}", match.group(1)
-        ), f"ACTIONLINT_SHA256_{arch} must be a real SHA256 digest, not a placeholder"
+        assert match.group(1) in ACTIONLINT_DIGESTS, (
+            f"ACTIONLINT_SHA256_{arch} must match a v1.7.12 checksums.txt digest"
+        )
     download = text.find(
         'curl -fsSL "https://github.com/rhysd/actionlint/releases/download'
     )
