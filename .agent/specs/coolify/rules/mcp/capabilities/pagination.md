@@ -3,6 +3,7 @@
 Source: coollabsio/coolify-docs `content/docs/mcp/capabilities/pagination.mdx` @ main `3b7c416`.
 
 ## Arguments
+
 - List tools accept `page` and `per_page` arguments.
 
 | Argument | Default | Maximum |
@@ -11,6 +12,7 @@ Source: coollabsio/coolify-docs `content/docs/mcp/capabilities/pagination.mdx` @
 | `per_page` | `50` | `100` |
 
 ## Continuation responses
+
 - Responses include `_pagination` with totals and a `next` object when another page exists:
 
 ```json
