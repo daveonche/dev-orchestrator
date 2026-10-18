@@ -136,7 +136,36 @@ in order:
 - `rules/core/security/credentials/cloud-tokens.md` — provider tokens for Hetzner, DigitalOcean, Vultr, Hostinger: creation, scopes, validation limits, deletion guards.
 - `rules/core/security/credentials/ssh-keys.md` — SSH private keys for server connections and deploy keys: creation, authorization, rotation, deletion guards.
 
-<!-- 8a-3 appends: integrations (4), mcp (21), services (5) — 111 rules-index total; payload-reference.md is listed under References index after its 8c move -->
+- `rules/integrations/networking/cloudflare/tunnels/all-resource.md` — expose all resources through one tunnel when there is no public IP, port forwarding is unavailable, or the server IP must stay private.
+- `rules/integrations/networking/cloudflare/tunnels/full-tls.md` — end-to-end TLS for apps that require HTTPS on Coolify itself (JWT issuance, callback URLs) while Cloudflare normally terminates TLS.
+- `rules/integrations/networking/cloudflare/tunnels/server-ssh.md` — connect a remote server to Coolify over SSH through a tunnel — hides the server IP and allows closing SSH ports.
+- `rules/integrations/networking/cloudflare/tunnels/single-resource.md` — expose one resource through a tunnel; the procedure starts by removing all domains from the **Domains** field.
+- `rules/mcp/what-is-mcp.md` — what Coolify's MCP server provides (tools, resources, prompts, Streamable HTTP) and what it does not bypass.
+- `rules/mcp/how-mcp-works.md` — connection flow, Bearer authentication and team scope, MCP primitives, and response boundaries.
+- `rules/mcp/setup.md` — enable the MCP endpoint, create a scoped token, connect a client, and verify access.
+- `rules/mcp/security.md` — least-privilege token selection, team scope, client configuration protection, and response boundaries.
+- `rules/mcp/troubleshooting.md` — 404/403/401 fixes, connection requirements, permission and resource-scope diagnosis, log availability.
+- `rules/mcp/clients/claude-code.md` — add Coolify via `claude mcp add --transport http` with a Bearer header; verify with `get_current_team`.
+- `rules/mcp/clients/cursor.md` — add Coolify as a remote MCP server in Cursor's **Tools & Integrations**; verify with `get_current_team`.
+- `rules/mcp/clients/other-clients.md` — required configuration (URL, Streamable HTTP transport, Bearer token) for any compatible MCP client.
+- `rules/mcp/capabilities/teams.md` — `get_current_team` and `list_team_members`; MCP never switches teams during a request.
+- `rules/mcp/capabilities/servers.md` — server and destination tools: list/inspect servers, domains, resources, and Docker destinations.
+- `rules/mcp/capabilities/projects.md` — project, environment, and combined resource listing, fuzzy search, and tag tools.
+- `rules/mcp/capabilities/applications.md` — list/inspect applications and pull-request previews; sensitive fields stay redacted.
+- `rules/mcp/capabilities/databases.md` — list/inspect standalone databases, backup schedules, and backup executions.
+- `rules/mcp/capabilities/services.md` — list/inspect services and their application and database components.
+- `rules/mcp/capabilities/deployments.md` — list/inspect deployments; deploy, cancel, and start/stop/restart control (`stop` requires `confirm=true`).
+- `rules/mcp/capabilities/logs.md` — `get_logs` (500-line cap) and deployment log summaries; redaction is best effort.
+- `rules/mcp/capabilities/environment-and-storage.md` — env-key names, shared env keys, and storage mounts — key names only, never values.
+- `rules/mcp/capabilities/integrations.md` — GitHub App listing, repository, and branch tools; call `list_github_apps` first.
+- `rules/mcp/capabilities/automation.md` — scheduled tasks and executions, unhealthy-resource detection, and infrastructure overview.
+- `rules/mcp/capabilities/prompts-and-resources.md` — `coolify://overview` and application resources; `troubleshoot_application` and `explain_failed_deploy` prompts.
+- `rules/mcp/capabilities/pagination.md` — `page`/`per_page` arguments (default 50, max 100) and `_pagination.next.args` continuation.
+- `rules/services/configuration/docker-compose.md` — every Service stores a Compose definition: one-click templates vs user-defined via **Docker Compose Editor**.
+- `rules/services/configuration/environment-variables.md` — normal view, **Is Multiline?** for certificates/keys/config, **Is Literal?** value handling.
+- `rules/services/configuration/general.md` — **Service Name** identifies the resource in project/environment — changing it does NOT rename Compose services.
+- `rules/services/configuration/networking.md` — private per-Service network (name based on the Service UUID) that components join automatically.
+- `rules/services/configuration/persistent-storage.md` — parsed storage is READ-ONLY on **Configuration > Persistent Storages** (grouped by component); add/change in Compose.
 
 ## References index
 
