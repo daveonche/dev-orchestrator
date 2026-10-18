@@ -130,6 +130,7 @@ sudo ss -tulpn | grep :6001
 ```
 
   The dashboard keeps working while the container is unhealthy — only realtime updates stop.
+  
 - Cloudflare returns an error for the WebSocket request → confirm the browser connects to public port `443` (not origin port `6001`), Cloudflare WebSockets are enabled for the zone, the tunnel or proxy route includes `/app/*`, and the Coolify proxy can reach `coolify:6001` on the `coolify` Docker network.
 - The dashboard works but realtime updates do not → check `PUSHER_HOST` and `PUSHER_PORT` in `/data/coolify/source/.env`; remove obsolete overrides when the dashboard and Reverb use the same hostname, or keep port `443` for a separate Cloudflare realtime hostname. Also confirm `PUSHER_BACKEND_HOST` is unset or `127.0.0.1` — a public hostname in that variable sends server-side events to the wrong place.
 - Direct IP access stops receiving updates → confirm the `coolify` container publishes host port `${REVERB_PORT:-${SOKETI_PORT:-6001}}` to container port `6001` and host port `6002` to container port `6002`, and that the server firewall permits these host ports from your client address.
