@@ -3,6 +3,7 @@
 Source: coollabsio/coolify-docs `content/docs/mcp/capabilities/services.mdx` @ main `3b7c416`.
 
 ## Tools
+
 | Tool | Purpose |
 | --- | --- |
 | `list_services` | List multi-container services with project, environment, server, status, and name filters. |
@@ -13,4 +14,5 @@ Source: coollabsio/coolify-docs `content/docs/mcp/capabilities/services.mdx` @ m
 | `get_service_database` | Inspect one service database component. |
 
 ## Usage
+
 - Use `get_logs` with the appropriate child resource when a service has multiple containers.

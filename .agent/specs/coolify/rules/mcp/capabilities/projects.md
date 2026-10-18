@@ -3,6 +3,7 @@
 Source: coollabsio/coolify-docs `content/docs/mcp/capabilities/projects.mdx` @ main `3b7c416`.
 
 ## Tools
+
 | Tool | Purpose |
 | --- | --- |
 | `list_projects` | List projects with UUID, name, and description. |

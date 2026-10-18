@@ -12,4 +12,5 @@ Source: coollabsio/coolify-docs `content/docs/mcp/capabilities/automation.mdx` @
 | `get_infrastructure_overview` | Return SQL-based health-hint counts and open deployment counts. |
 
 ## Response boundaries
+
 - Task command bodies and execution messages require `read:sensitive` and are best-effort redacted.

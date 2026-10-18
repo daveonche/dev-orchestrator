@@ -3,10 +3,12 @@
 Source: coollabsio/coolify-docs `content/docs/core/backup-and-recovery/instance-restore.mdx` @ main `3b7c416`.
 
 ## Scope
+
 - Restoring Coolify replaces the instance database with a backup — projects, resources, settings, saved credentials, and deployment history. It does not restore data stored inside your applications, databases, services, or volumes.
 - Self-hosted only; the Coolify team manages Coolify Cloud instance recovery.
 
 ## Before you restore
+
 - A Coolify database backup file ending in `.dmp` (if stored in S3, download it from the provider first).
 - The `APP_KEY` value saved when following the instance-backup rule.
 - SSH access to the server where you will restore; the Coolify version shown in the dashboard when the backup was created, if saved.
@@ -14,6 +16,7 @@ Source: coollabsio/coolify-docs `content/docs/core/backup-and-recovery/instance-
 - DANGER: the restore command removes the current Coolify database objects before loading the backup — do not continue unless the backup file and saved `APP_KEY` belong to the instance you want to recover.
 
 ## Prepare the restore target
+
 - Same server: confirm `coolify-db` is running and place the backup somewhere on that machine, such as `/data/backups/coolify-db-backup.dmp`:
 
 ```sh
@@ -23,6 +26,7 @@ docker ps --filter name=coolify-db --format '{{.Names}}  {{.Status}}'
 - Replacement server: install Coolify first, using the version that was installed when the backup was created (`curl -fsSL https://cdn.coollabs.io/coolify/install.sh | sudo bash -s <version>`; omit `-s <version>` for the latest stable if the previous version is unknown), confirm the fresh dashboard opens, then copy the database backup to the replacement server.
 
 ## Restore the instance
+
 - Check the backup file:
 
 ```sh
@@ -56,10 +60,12 @@ docker exec -i coolify-db pg_restore \
 - Start Coolify by running the installer again — include the version installed before restoring (`bash -s <version>`), or omit it for the latest stable. The installer starts the Coolify containers and applies any required database migrations; wait for it to finish before opening the dashboard.
 
 ## Verify the restore
+
 - The dashboard opens without an encryption error; projects, environments, and resources are present; **Servers > localhost** validates successfully; other managed servers connect; recent deployments and instance settings appear as expected.
 - Application volume and database data are not part of an instance backup — restore those resources from their own backups when needed.
 
 ## Troubleshoot
+
 - Encryption or `Invalid MAC` error → the active `APP_KEY` does not match the key used to encrypt the restored database. Stop `coolify`, confirm `/data/coolify/source/.env` contains the saved `APP_KEY` value, then run the installer again. Current Coolify reads `APP_KEY`; do not add `APP_PREVIOUS_KEYS`.
 - `pg_restore` stops with an error → keep the control-plane containers stopped and read the first error in the output; confirm the file is a non-empty `.dmp` created by `pg_dump --format=custom`, then rerun after correcting the problem.
 - Replacement server fails validation → confirm the original SSH key files are under `/data/coolify/ssh/keys/` and the matching public key from the original server is present in `~/.ssh/authorized_keys` on the replacement.

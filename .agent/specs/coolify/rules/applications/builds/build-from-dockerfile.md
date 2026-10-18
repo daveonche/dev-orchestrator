@@ -39,6 +39,7 @@ Source: coollabsio/coolify-docs `content/docs/applications/builds/dockerfile.mdx
 ## Troubleshoot a failed domain after a successful build
 
 If the image builds but the domain does not respond:
+
 1. Open **Runtime Logs** and look for exit or bind errors.
 2. Confirm the process binds to `0.0.0.0`, not `127.0.0.1`.
 3. Confirm **Ports Exposes** matches the internal listening port.

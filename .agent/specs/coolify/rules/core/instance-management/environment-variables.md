@@ -3,10 +3,12 @@
 Source: coollabsio/coolify-docs `content/docs/core/instance-management/environment-variables.mdx` @ main `3b7c416`.
 
 ## Scope
+
 - Self-hosted Coolify reads its instance environment from `/data/coolify/source/.env` — use it for settings such as PHP memory, workers, and scheduled job dispatch that are not exposed in the dashboard.
 - These settings affect the Coolify instance. To configure a deployed application, use that application's environment variables and image configuration instead.
 
 ## PHP memory and worker settings
+
 - The standard production Compose configuration supplies these defaults when the corresponding variable is unset:
 
 | Variable | Coolify default | Purpose |
@@ -22,6 +24,7 @@ Source: coollabsio/coolify-docs `content/docs/core/instance-management/environme
 - Coolify's own configuration can override image defaults — verify the effective value after making changes.
 
 ## Scheduled job dispatch
+
 - `SCHEDULED_JOBS_DISPATCH_MODE` controls how the scheduler checks every minute which database backups, tasks, volume backups, and Docker cleanups are due:
 
 | Value | Behavior |
@@ -32,6 +35,7 @@ Source: coollabsio/coolify-docs `content/docs/core/instance-management/environme
 - When the variable is not set or has another value, self-hosted instances use `sequential`. Use `concurrent` when many backups or tasks are due at the same minute and one slow job type delays the others.
 
 ## Change a setting
+
 - Connect to the server where the Coolify instance runs; back up the existing environment file, then edit it:
 
 ```bash
@@ -49,6 +53,7 @@ PHP_MEMORY_LIMIT=512M
 - Do NOT edit the generated `docker-compose.prod.yml` to change one of these defaults — installer and update scripts can replace that file.
 
 ## Apply the changes
+
 - Changing `.env` does not update an existing container's environment — recreate the Coolify container using your installation's Compose configuration; a plain `docker restart coolify` does not reload these variables.
 - For a standard self-hosted installation, run these commands in Bash from the source folder:
 
@@ -71,6 +76,7 @@ EOF
 - You do not need to run `docker compose down` first — `--force-recreate` replaces the Coolify container while `--no-deps` leaves PostgreSQL and Redis running. The dashboard is briefly unavailable while Coolify restarts.
 
 ## Verify the configuration
+
 - Check the PHP memory limit inside the recreated container — for the example above the result should be `512M`:
 
 ```bash
@@ -90,6 +96,7 @@ docker logs --tail 100 coolify
 ```
 
 ## When to use a Compose override
+
 - Use `.env` for parameters supported by the instance configuration or its container image; use `/data/coolify/source/docker-compose.custom.yml` for Compose attributes such as `mem_limit`, CPU limits, port bindings, and additional file mounts.
 - An arbitrary environment variable does not automatically become a PHP setting — if a parameter has no environment-variable support, it needs the image's supported configuration-file mechanism. Coolify also provides its own PHP configuration, so check the loaded configuration before assuming an image setting took effect.
 - Compose override examples: `/start-with-self-hosted#examples`.

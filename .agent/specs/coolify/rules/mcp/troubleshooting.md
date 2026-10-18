@@ -3,6 +3,7 @@
 Source: coollabsio/coolify-docs `content/docs/mcp/troubleshooting.mdx` @ main `3b7c416`.
 
 ## Troubleshoot
+
 - The MCP endpoint returns `404` → set **MCP server** to **Enabled** in **Settings > Advanced > API and MCP**, then **Save changes** — the instance endpoint returns `404` while this setting is disabled.
 - The MCP endpoint returns `403` → open **Team > General** for the token's team, set **MCP server** to **Enabled for this team**, then **Save changes**.
 - The client returns `401` or authentication fails → confirm the complete token appears after `Bearer`, has not expired or been revoked, and belongs to a team member; confirm the client sends the header on every MCP request.

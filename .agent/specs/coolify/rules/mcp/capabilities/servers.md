@@ -3,6 +3,7 @@
 Source: coollabsio/coolify-docs `content/docs/mcp/capabilities/servers.mdx` @ main `3b7c416`.
 
 ## Tools
+
 | Tool | Purpose |
 | --- | --- |
 | `list_servers` | List team-visible servers; optionally filter by reachability. |
@@ -13,4 +14,5 @@ Source: coollabsio/coolify-docs `content/docs/mcp/capabilities/servers.mdx` @ ma
 | `get_destination` | Inspect one Docker destination by UUID. |
 
 ## Usage
+
 - Use `get_infrastructure_overview` first for counts and server health hints.

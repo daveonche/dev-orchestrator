@@ -3,11 +3,13 @@
 Source: coollabsio/coolify-docs `content/docs/core/instance-management/reverb-migration.mdx` @ main `3b7c416`.
 
 ## Scope
+
 - New Coolify releases run Laravel Reverb and the web terminal server inside the main `coolify` container — they no longer use the separate `coolify-realtime` container.
 - Most installations do not need a manual change. Review your configuration before the update if you use a custom Compose override, custom realtime ports, a firewall, or a Cloudflare Tunnel.
 - The update accepts a `soketi` override in `docker-compose.custom.yml` — existing proxy routes and port settings remain compatible. You can move custom port bindings to `coolify` to make the override reflect the new container layout.
 
 ## What changes
+
 | Before | After |
 | --- | --- |
 | Soketi listens in `coolify-realtime` | Reverb listens in `coolify` |
@@ -21,6 +23,7 @@ Source: coollabsio/coolify-docs `content/docs/core/instance-management/reverb-mi
 - The `coolify` container also has `coolify-realtime` as a network alias on the `coolify` Docker network — a reverse proxy that still sends traffic to `coolify-realtime:6001` or `coolify-realtime:6002` keeps working.
 
 ## Before you update
+
 - Back up the instance configuration:
 
 ```sh
@@ -45,6 +48,7 @@ grep -E '^(PUSHER_HOST|PUSHER_PORT|PUSHER_SCHEME|PUSHER_BACKEND_PORT|SOKETI_PORT
 ```
 
 ## Migrate a custom Compose override
+
 - The old firewall example configured ports on two services:
 
 ```yaml
@@ -82,6 +86,7 @@ services:
 - WARNING: keep ports `8000`, `6001`, and `6002` reachable until the dashboard, realtime updates, and terminal work through your domain — restrict them after you complete the verification.
 
 ## Environment variables
+
 | Variable | Purpose |
 | --- | --- |
 | `SOKETI_PORT` | Compatible Docker host-port override for origin port `6001` |
@@ -96,11 +101,13 @@ services:
 - Without an explicit `PUSHER_PORT`, leave it unset — Coolify selects the public port from the dashboard request and keeps direct IP access compatible.
 
 ## Cloudflare configurations
+
 - Dashboard through the Coolify proxy (recommended): send the dashboard hostname to the Coolify proxy on port `80` or `443`; the generated proxy configuration routes `/app/*` and `/apps/*` to `coolify:6001`, `/terminal/ws` to `coolify:6002`, and `/*` to `coolify:8080` — no separate Cloudflare routes for Reverb or the terminal are needed.
 - For a Cloudflare Tunnel that terminates TLS at Cloudflare, set the tunnel service URL to `http://localhost:80`; for end-to-end TLS, use the HTTPS origin configuration from the upstream Full TLS guide (`/integrations/networking/cloudflare/tunnels/full-tls`).
 - Separate realtime hostname (older tunnel configurations) remains compatible — keep `PUSHER_HOST=coolify-realtime.example.com`, `PUSHER_PORT=443`, `PUSHER_BACKEND_PORT=6001`; the Cloudflare route still connects to origin port `6001`, but Reverb now handles that port in the `coolify` container.
 
 ## Update and verify
+
 - Update Coolify from **Settings > Updates** — existing realtime routes, port settings, and legacy `soketi` overrides remain compatible. Keep the configuration backups until you have verified the dashboard, realtime updates, and terminal.
 - If you migrate an override manually, check that all required port bindings are now on `coolify`; review the update log in `/data/coolify/source/upgrade-*.log` if the update reports a configuration error.
 - After the update, run:
@@ -114,6 +121,7 @@ docker logs --tail 100 coolify
 - You can also open `/realtime` in two browser tabs and send a test event.
 
 ## Troubleshoot
+
 - The `coolify` container stays unhealthy → the container healthcheck now includes Reverb; check the Reverb log inside the container and confirm nothing else listens on port `6001`:
 
 ```sh

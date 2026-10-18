@@ -3,12 +3,14 @@
 Source: coollabsio/coolify-docs `content/docs/core/instance-management/update-coolify-database.mdx` @ main `3b7c416`.
 
 ## Scope
+
 - Coolify stores its projects, resources, settings, and deployment history in an internal PostgreSQL database. The database runs in the `coolify-db` container.
 - WARNING: self-hosted instances only — Coolify Cloud users cannot access the internal Coolify database; contact the Coolify team for `500` status code errors on Coolify Cloud.
 - A normal Coolify update (see the update rule) does not migrate this database to a newer PostgreSQL major version — major-version changes require the migration script described here.
 - This procedure does not apply to PostgreSQL databases deployed as project resources — back up and upgrade those separately.
 
 ## Before you update
+
 - Create an instance backup (see the instance-backup rule), copy the backup outside the Coolify server, and confirm that `/data/coolify/source/.env` is saved outside the server — it contains the instance `APP_KEY`.
 - Let active deployments finish before starting the migration.
 - Choose a PostgreSQL major version newer than the version currently used by `coolify-db`.
@@ -17,6 +19,7 @@ Source: coollabsio/coolify-docs `content/docs/core/instance-management/update-co
 ## Update the database
 
 ### Check the migration script
+
 - On the server that runs Coolify, confirm the script exists and is executable:
 
 ```sh
@@ -27,6 +30,7 @@ test -x /data/coolify/source/upgrade-postgres.sh \
 - If the command prints nothing, update Coolify (see the update rule) and check again — the installer and updater download the current migration script but do not run it automatically.
 
 ### Check the current PostgreSQL version
+
 - Confirm `coolify-db` is running and print its active PostgreSQL version:
 
 ```sh
@@ -40,6 +44,7 @@ docker exec coolify-db sh -lc \
 - The target must be a numeric PostgreSQL major version of `10` or newer and higher than the major version reported for the running `coolify-db` container — the script does not support downgrading by passing an older version number.
 
 ### Run the database update
+
 - WARNING: the Coolify dashboard will be unavailable — the script stops the `coolify` application container before creating the database dump and keeps it stopped during the migration. Applications, databases, services, and Coolify Proxy managed by the instance continue running.
 - Run the script with the target PostgreSQL major version — this example upgrades to PostgreSQL 18; replace `18` with your target and do not close the shell while the script is running:
 
@@ -58,6 +63,7 @@ docker exec coolify-db sh -lc \
 - If something goes wrong, the script stops as soon as it encounters an error — keep the terminal output and review `/data/coolify/source/postgres-upgrade-<timestamp>.log` for the migration progress and recorded command output.
 
 ### Verify the database update
+
 - Run the version check again and confirm the output starts with the target major version:
 
 ```sh
@@ -68,6 +74,7 @@ docker exec coolify-db sh -lc \
 - Open the Coolify dashboard and check that: the dashboard loads without a database error; your projects and resources are present; **Servers > localhost** validates successfully; other managed servers still connect.
 
 ## Roll back the database update
+
 - If the updated database does not work, run the rollback command:
 
 ```sh
@@ -86,6 +93,7 @@ docker exec coolify-db sh -lc \
 - Verify the rollback: run the version check again and confirm the output starts with the version shown in the table, then repeat the dashboard checks (dashboard loads, projects and resources present, **Servers > localhost** validates, other managed servers connect).
 
 ## How the update changes Docker Compose
+
 - The migration script does not change `/data/coolify/source/docker-compose.yml` or `/data/coolify/source/docker-compose.prod.yml` — it creates this override instead: `/data/coolify/source/docker-compose.postgres-upgrade.yml`.
 - For an upgrade to PostgreSQL 18 using the default volume name, the file contains configuration similar to this:
 
@@ -118,6 +126,7 @@ docker compose --env-file .env "${compose_files[@]}" config
 ```
 
 ## Files created by the update
+
 | File | Purpose |
 | --- | --- |
 | `/data/coolify/source/docker-compose.postgres-upgrade.yml` | Keeps the upgraded PostgreSQL image, Docker volume, and mount path active during normal Coolify updates. |
