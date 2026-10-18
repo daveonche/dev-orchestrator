@@ -135,7 +135,6 @@ in order:
 - `rules/core/security/credentials/cloud-init-scripts.md` — reusable cloud-init scripts for Hetzner/DigitalOcean/Vultr provisioning; edit and delete semantics.
 - `rules/core/security/credentials/cloud-tokens.md` — provider tokens for Hetzner, DigitalOcean, Vultr, Hostinger: creation, scopes, validation limits, deletion guards.
 - `rules/core/security/credentials/ssh-keys.md` — SSH private keys for server connections and deploy keys: creation, authorization, rotation, deletion guards.
-
 - `rules/integrations/networking/cloudflare/tunnels/all-resource.md` — expose all resources through one tunnel when there is no public IP, port forwarding is unavailable, or the server IP must stay private.
 - `rules/integrations/networking/cloudflare/tunnels/full-tls.md` — end-to-end TLS for apps that require HTTPS on Coolify itself (JWT issuance, callback URLs) while Cloudflare normally terminates TLS.
 - `rules/integrations/networking/cloudflare/tunnels/server-ssh.md` — connect a remote server to Coolify over SSH through a tunnel — hides the server IP and allows closing SSH ports.
