@@ -3,22 +3,27 @@
 Source: coollabsio/coolify-docs `content/docs/integrations/networking/cloudflare/tunnels/single-resource.mdx` @ main `3b7c416`.
 
 ## Prepare the app
+
 1. Remove all domains from the **Domains** field.
 2. Set **Ports Exposed** to the app's internal port.
 3. Set **Port Mappings** `host:container` (example `4477:80`).
 4. **Deploy**.
 
 ## Create the tunnel and deploy cloudflared
+
 - Cloudflare **Networking > Tunnels > Create tunnel** > Docker option > copy the token (`eyJ...`).
 - Coolify project > **+ New** > **Cloudflared** > Environment Variables > token > deploy; confirm the connector is healthy.
 
 ## TLS
+
 - Cloudflare **SSL/TLS > Overview > Configure** → **Full (Strict)** → **Save**.
 
 ## Configure the route
+
 - Tunnel > **Configure** > **Routes** > **Add route** > **Published Application**: subdomain (e.g. `helixa`), domain, path empty, **Service URL** `http://localhost:4477` — the HOST port from the port mapping, not the container port.
 
 ## Tunnel multiple resources
+
 - Easiest: the all-resource guide via the Coolify proxy.
 - Multiple single resources: repeat the prepare step per app, then add one route per app pointing at its mapped host port — no separate tunnel needed.
 - Tunnel Coolify (dashboard + realtime + terminal through one route):
@@ -32,5 +37,6 @@ Source: coollabsio/coolify-docs `content/docs/integrations/networking/cloudflare
 - Ports 8000/6001/6002 stay internal — the tunnel connects from inside the server; no public exposure needed.
 
 ## Known issues
+
 - Realtime/terminal fail with `localhost` → the server resolves `localhost` to IPv6 `::1` while the origin listens on IPv4: change the service URL to `http://127.0.0.1:<port>` (HTTPS origin: `https://127.0.0.1:443` + **Origin Server Name** set to the certificate hostname).
 - Existing DNS record blocks the route → CNAME record `<subdomain or *>` → `<tunnel-id>.cfargotunnel.com`, proxied.

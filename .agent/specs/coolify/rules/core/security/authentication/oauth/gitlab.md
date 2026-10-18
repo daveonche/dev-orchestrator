@@ -3,6 +3,7 @@
 Source: coollabsio/coolify-docs `content/docs/core/security/authentication/oauth/gitlab.mdx` @ main `3b7c416`.
 
 ## Open applications
+
 - Sign in → avatar menu > **Edit profile** > **Access > Applications**.
 - Self-managed instance: an administrator can create an instance-wide application when organizational ownership is required.
 
@@ -18,9 +19,11 @@ Source: coollabsio/coolify-docs `content/docs/core/security/authentication/oauth
 - **Add new application** → save.
 
 ## Save the credentials
+
 - Copy **Application ID** + **Secret**; store securely. If GitLab no longer shows the complete value, create or rotate the secret before continuing.
 
 ## Configure in Coolify
+
 - **Settings > Authentication > GitLab**:
 
 | Coolify field | GitLab value |
@@ -33,8 +36,10 @@ Source: coollabsio/coolify-docs `content/docs/core/security/authentication/oauth
 - **Save** → **Enabled**.
 
 ## Verify
+
 - Login page in a private browser window → **Login with GitLab** → approve the application → the account matching the GitLab email opens.
 
 ## Troubleshoot
+
 - A self-managed GitLab redirects to GitLab.com → **Base URL** = the self-managed origin; do NOT include `/oauth/authorize`, `/api`, or a trailing application path.
 - GitLab rejects the callback → the exact `https://<coolify-domain>/auth/gitlab/callback` value in both GitLab and Coolify; application confidential with the `read_user` scope.

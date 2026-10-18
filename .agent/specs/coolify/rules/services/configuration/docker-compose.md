@@ -3,15 +3,18 @@
 Source: coollabsio/coolify-docs `content/docs/services/configuration/docker-compose.mdx` @ main `3b7c416`. Canonical reference for `SERVICE_*` magic variables — `rules/applications/builds/docker-compose.md` defers to this table.
 
 ## Source vs deployable
+
 - Every Service stores a Compose definition: one-click = copied template, user-defined = entered via **Docker Compose Empty**. Edit under **Configuration > General > Edit Compose File**.
 - **Source Compose**: editable, reparsed on save. **Deployable Compose**: generated, read-only — Coolify may add/normalize container names, labels, volume names, networks, environment references, proxy configuration. Troubleshoot: confirm the setting in source, then read the deployable view for the actual Docker Compose input.
 - Edit flow: edit source → **Validate** (user-defined only) → **Save** → review component cards, env vars, storage, deployable → deploy/restart → verify every component.
 - Saving reparses; removing/renaming a Compose service changes component identification — back up data and inspect storage names first.
 
 ## Environment references
+
 - `${DATABASE_URL:?}` = required, deployment blocked while empty; `${LOG_LEVEL:-info}` = initial fallback. Hard-coded values stay in Compose — change them in **Source Compose** (shown for reference only).
 
 ## Magic variables — `SERVICE_<TYPE>_<ID>`
+
 | Pattern | Value | Size |
 | :--- | :--- | :--- |
 | `SERVICE_NAME_<SERVICE>` | Compose service name; auto-created for every service | — |
@@ -30,15 +33,19 @@ Source: coollabsio/coolify-docs `content/docs/services/configuration/docker-comp
 - The same complete variable name returns the same stored value everywhere; values persist across deployments. Passwords/random values editable under **Environment Variables**; URL/FQDN/name managed from the definition + domain config.
 
 ## Domains
+
 - Declare `SERVICE_URL_<SERVICE>[_<PORT>]` on the component needing the domain; a path value appends (`SERVICE_URL_API_3000: /v1`). Alternatively set the component **Domains** field after parsing; review the generated variable after any domain change.
 
 ## Storage and health checks are Compose-owned
+
 - Volumes/bind mounts come from the definition; Coolify prefixes managed volume names; the storage view is read-only.
 - No standalone health-check page: define `healthcheck:` in Compose or the image; `exclude_from_hc: true` for one-time/optional services.
 
 ## Networking
+
 - Components use Compose service names on the Service-specific network; no `ports:` for internal-only components. **Connect To Predefined Network** only for cross-resource communication.
 
 ## Update a one-click Service
+
 - The template is copied at creation; Coolify never merges later template changes. Before updating: read release notes + service guide → back up data + test restore → compare current source vs newer template → apply image/variable/mount/migration changes deliberately → save, review deployable, deploy in a maintenance window → verify every component.
 - **Pull Latest Images & Restart** only pulls tags already stored in Compose; pin production images when upstream offers versioned tags.
