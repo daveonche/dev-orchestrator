@@ -17,13 +17,13 @@ Source: coollabsio/coolify-docs `content/docs/applications/builds/dockerfile.mdx
 
 ## Build arguments and secrets
 
-- **Advanced > Build > Build arguments** → **Managed manually in Dockerfile** when the Dockerfile declares and consumes every `ARG` itself.
-- `SOURCE_COMMIT` is excluded from Git-based builds by default (cache reuse across commits); set **Source commit availability** → **Available during build** only when the image contents need it.
+- Under **Advanced > Build > Build arguments**, select **Managed manually in Dockerfile** when the Dockerfile declares and consumes every `ARG` itself.
+- `SOURCE_COMMIT` is excluded from Git-based builds by default (cache reuse across commits); set **Source commit availability** to **Available during build** only when the image contents need it.
 - Sensitive build-time values: **Build secrets > Docker BuildKit secrets** (requires BuildKit).
 
 ## Health checks
 
-- Image-level `HEALTHCHECK` works; the image must contain the check command. Alternatively configure under **Healthcheck** (see `rules/applications/configuration/health-checks.md` for precedence).
+- Image-level `HEALTHCHECK` works; the image must contain the check command. Alternatively configure under **Healthcheck** — see the health-checks rule for precedence.
 
 ## Deployment commands
 
@@ -31,6 +31,11 @@ Source: coollabsio/coolify-docs `content/docs/applications/builds/dockerfile.mdx
 - **Post-deployment** runs in the new container; deployment is marked complete before it runs; failure is logged but does not change the successful status.
 - Both must be safe to run repeatedly; test migrations against non-production.
 
-## Build succeeds, domain fails
+## Troubleshoot a failed domain after a successful build
 
-1. **Runtime Logs** for exit/bind errors → 2. confirm `0.0.0.0` binding → 3. confirm **Ports Exposes** → 4. health-check request inside **Terminal** → 5. no-available-server guide.
+If the image builds but the domain does not respond:
+1. Open **Runtime Logs** and look for exit or bind errors.
+2. Confirm the process binds to `0.0.0.0`, not `127.0.0.1`.
+3. Confirm **Ports Exposes** matches the internal listening port.
+4. Run a health-check request against the port inside the container's **Terminal**.
+5. Follow the upstream no-available-server guide when no server is available to run the container.
