@@ -10,7 +10,7 @@ documentation when needed. Database resources are out of scope: the
 upstream `databases/` section was not distilled.
 
 **Source:** Coolify documentation — coollabsio/coolify-docs `content/docs`
-@ main `3b7c416` (v4.4.6 snapshot), upstream docs at
+@ main `3b7c416` (distilled alongside Coolify app v4.4.6), upstream docs at
 [coolify.io/docs](https://coolify.io/docs).
 
 **Scope:** Coolify administration tasks in this repository — instance
