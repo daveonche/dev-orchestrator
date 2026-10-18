@@ -174,7 +174,8 @@ in order:
 - `references/upgrade-notes/` — version-specific upgrade notes (empty at
   the v4.4.6 baseline).
 - `references/webhook-payload-reference.md` — per-event webhook JSON
-  payload reference (moved from `rules/` in 8c).
+  payload reference, distilled from upstream
+  `content/docs/core/notifications/channels/webhook/payload-reference.mdx`.
 
 ## Language pack
 
