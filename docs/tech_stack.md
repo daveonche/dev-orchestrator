@@ -105,6 +105,34 @@ Notes:
 - Puppeteer is pointed at the system Chromium (`PUPPETEER_SKIP_DOWNLOAD=true`, `PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true`, `PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium`), so mermaid-cli renders diagrams without a bundled Chrome download.
 - pytest is installed into the base image's `/venv` interpreter at the same version pinned in `.agent/pyproject.toml`, so the container can run the project's test suite exactly like the host.
 
+### Pentest Toolkit Pins
+
+Components baked into `.agent/Dockerfile.aider` Layers F–H for the
+`$code-pentest` workflow (methodology vendored from Strix — see
+`.agent/specs/pentest/references/provenance.md`).
+
+| Component | Pin | Nature | Used in |
+| :--- | :--- | :--- | :--- |
+| nmap, sqlmap | Debian bookworm packages | distro-managed | Layer F |
+| nuclei | `3.3.9` (VERIFY) | exact, checksums.txt-gated (GitHub release) | Layer G |
+| httpx | `1.6.9` (VERIFY) | exact, checksums.txt-gated (GitHub release) | Layer G |
+| subfinder | `2.6.7` (VERIFY) | exact, checksums.txt-gated (GitHub release) | Layer G |
+| katana | `1.1.1` (VERIFY) | exact, checksums.txt-gated (GitHub release) | Layer G |
+| naabu | `2.3.2` (VERIFY) | exact, checksums.txt-gated (GitHub release) | Layer G |
+| semgrep | `1.86.0` (VERIFY) | exact, PyPI, isolated `/opt/pentest-venv` | Layer H |
+| bandit | `1.8.2` (VERIFY) | exact, PyPI, isolated `/opt/pentest-venv` | Layer H |
+| Strix skills (methodology) | commit `<PENDING-PIN>` (VERIFY) | vendored + adapted, see provenance | `.agent/specs/pentest/references/strix-skills/` |
+
+Notes:
+
+- Layer G verifies every release asset against the release's
+  `checksums.txt` before extraction; to upgrade a tool, bump its version
+  in the `pd_install` call and re-verify.
+- Layer H is deliberately isolated from the aider `/venv`: semgrep's
+  dependency tree must never resolve against aider's own pins.
+- nuclei templates are not baked; they download on first use into the
+  writable `/home/.cache` mount.
+
 ### Verified Host Runtime Pin
 
 The host runtime that executes the launcher `.agent/ai_assistant.py` is pinned to an exact version.
