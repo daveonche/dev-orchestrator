@@ -114,13 +114,13 @@ Components baked into `.agent/Dockerfile.aider` Layers F–H for the
 | Component | Pin | Nature | Used in |
 | :--- | :--- | :--- | :--- |
 | nmap, sqlmap | Debian bookworm packages | distro-managed | Layer F |
-| nuclei | `3.3.9` (VERIFY) | exact, checksums.txt-gated (GitHub release) | Layer G |
-| httpx | `1.6.9` (VERIFY) | exact, checksums.txt-gated (GitHub release) | Layer G |
-| subfinder | `2.6.7` (VERIFY) | exact, checksums.txt-gated (GitHub release) | Layer G |
-| katana | `1.1.1` (VERIFY) | exact, checksums.txt-gated (GitHub release) | Layer G |
-| naabu | `2.3.2` (VERIFY) | exact, checksums.txt-gated (GitHub release) | Layer G |
-| semgrep | `1.86.0` (VERIFY) | exact, PyPI, isolated `/opt/pentest-venv` | Layer H |
-| bandit | `1.8.2` (VERIFY) | exact, PyPI, isolated `/opt/pentest-venv` | Layer H |
+| nuclei | `3.11.1` | exact, checksums.txt-gated (GitHub release) | Layer G |
+| httpx | `1.12.0` | exact, checksums.txt-gated (GitHub release) | Layer G |
+| subfinder | `2.17.0` | exact, checksums.txt-gated (GitHub release) | Layer G |
+| katana | `1.8.0` | exact, checksums.txt-gated (GitHub release) | Layer G |
+| naabu | `2.6.1` | exact, checksums.txt-gated (GitHub release) | Layer G |
+| semgrep | `1.182.1` | exact, PyPI, isolated `/opt/pentest-venv` | Layer H |
+| bandit | `1.9.4` | exact, PyPI, isolated `/opt/pentest-venv` | Layer H |
 | Strix skills (methodology) | commit `4ac5dc65e4c02afc8fdc22878716a83d481f00fb` | vendored + adapted, see provenance (9 of 9 vendored) | `.agent/specs/pentest/references/strix-skills/` |
 
 Notes:
@@ -132,6 +132,11 @@ Notes:
   dependency tree must never resolve against aider's own pins.
 - nuclei templates are not baked; they download on first use into the
   writable `/home/.cache` mount.
+- Verification record (2026-10-26): `releases/latest` lookups returned
+  nuclei `3.11.1`, httpx `1.12.0`, subfinder `2.17.0`, katana `1.8.0`,
+  naabu `2.6.1` (GitHub API) and semgrep `1.182.1`, bandit `1.9.4`
+  (PyPI JSON API); the pins above match. Re-run the same lookups when
+  upgrading any tool.
 
 ### Verified Host Runtime Pin
 
