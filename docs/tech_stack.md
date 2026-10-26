@@ -113,7 +113,8 @@ Components baked into `.agent/Dockerfile.aider` Layers F–H for the
 
 | Component | Pin | Nature | Used in |
 | :--- | :--- | :--- | :--- |
-| nmap, sqlmap | Debian bookworm packages | distro-managed | Layer F |
+| nmap | Debian bookworm package (7.93) | distro-managed, lag accepted | Layer F |
+| sqlmap | `1.10.10` | exact, PyPI, isolated `/opt/pentest-venv` | Layer H |
 | nuclei | `3.11.1` | exact, checksums.txt-gated (GitHub release) | Layer G |
 | httpx | `1.12.0` | exact, checksums.txt-gated (GitHub release) | Layer G |
 | subfinder | `2.17.0` | exact, checksums.txt-gated (GitHub release) | Layer G |
@@ -130,36 +131,44 @@ Notes:
   in the `pd_install` call and re-verify.
 - Layer H is deliberately isolated from the aider `/venv`: semgrep's
   dependency tree must never resolve against aider's own pins.
+- sqlmap's venv entry point is symlinked into `/usr/local/bin` like
+  semgrep/bandit, so the runtime user resolves the pinned PyPI version
+  on PATH; the bookworm apt package it replaced was frozen at 1.7.2.
+- nmap stays distro-managed: bookworm security updates cover it and the
+  version lag vs. nmap.org releases is accepted (recorded below).
 - nuclei templates are not baked; they download on first use into the
   writable `/home/.cache` mount.
 - Verification record (2026-10-26): `releases/latest` lookups returned
   nuclei `3.11.1`, httpx `1.12.0`, subfinder `2.17.0`, katana `1.8.0`,
-  naabu `2.6.1` (GitHub API) and semgrep `1.182.1`, bandit `1.9.4`
-  (PyPI JSON API); the pins above match. Re-run the same lookups when
-  upgrading any tool.
+  naabu `2.6.1` (GitHub API) and semgrep `1.182.1`, bandit `1.9.4`,
+  sqlmap `1.10.10` (PyPI JSON API; homepage `https://sqlmap.org`
+  confirms the official package); the pins above match. Re-run the
+  same lookups when upgrading any tool.
+- sqlmap migration (2026-10-26): moved from Layer F apt
+  (bookworm-frozen 1.7.2) to Layer H pip at `1.10.10`, symlinked into
+  `/usr/local/bin` like semgrep/bandit.
+- nmap decision (2026-10-26): bookworm's 7.93 kept; the lag vs.
+  nmap.org releases is accepted in exchange for distro security
+  updates; a pinned nmap.org tarball build was rejected as a heavier
+  new pattern.
 
 Release-currency refresh procedure — policy: every toolkit pin tracks
 the current stable release at update time, never a stale one. Run this
 whenever a pin is suspected stale (resume anchor:
 `docs/workflow_state.md`):
 
-1. Re-verify the seven pins — GitHub `releases/latest` for
-   nuclei/httpx/subfinder/katana/naabu, PyPI JSON for semgrep/bandit
-   (the lookups in the verification record above). Bump any that moved
-   in `.agent/Dockerfile.aider` (Layer G `pd_install` calls, Layer H
-   pip pins) and the table above together. Gotcha: `httpx -version`
-   prints a bare version with no "version" keyword, so the per-tool
-   check must not grep for it.
-2. sqlmap (bookworm-frozen at 1.7.2): check the PyPI `sqlmap` package
-   (provenance + current version); if suitable, move it from Layer F
-   apt to Layer H pip (`/opt/pentest-venv`, symlinked into
-   `/usr/local/bin` like semgrep/bandit); otherwise pin a
-   sqlmapproject/sqlmap tag (SHA via `git ls-remote`) with a wrapper
-   script. Update the table row from distro-managed to exact pin.
-3. nmap (bookworm 7.93): keep the distro version and record the
-   accepted lag here (recommended), or build a pinned nmap.org release
-   tarball (heavier; new build pattern) — decide per refresh.
-4. Verify: `python3 -m pytest tests/test_s4_2_step1.py
+1. Re-verify the eight pins — GitHub `releases/latest` for
+   nuclei/httpx/subfinder/katana/naabu, PyPI JSON for
+   semgrep/bandit/sqlmap (the lookups in the verification record
+   above). Bump any that moved in `.agent/Dockerfile.aider` (Layer G
+   `pd_install` calls, Layer H pip pins) and the table above together.
+   Gotcha: `httpx -version` prints a bare version with no "version"
+   keyword, so the per-tool check must not grep for it.
+2. nmap (bookworm 7.93): keep the distro version and confirm the
+   accepted-lag note above still stands (recommended), or build a
+   pinned nmap.org release tarball (heavier; new build pattern) —
+   decide per refresh.
+3. Verify: `python3 -m pytest tests/test_s4_2_step1.py
    tests/test_audit_pentest_toolkit.py`; rebuild via
    `./.agent/start.sh` from the host; re-run the `$code-pentest`
    [STEP 3] probe and the per-tool version check.
