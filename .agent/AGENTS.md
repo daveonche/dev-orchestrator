@@ -304,6 +304,20 @@ Replace `[command]` and `[name]` with the actual values; the `OK`/`FAILED`
 status line (plus at most the grep tail on failure) is the only output
 that enters context.
 
+**Code-mode gate for executable commands (hard rule):** Aider only offers to
+run shell commands in `/code` mode, and only auto-detects them when each
+command is a single line in a fenced code block tagged with a shell language.
+Before asking the user to run any command, first instruct the user to switch
+to `/code` and reply `run command`; only after that reply, emit the command.
+Never emit executable commands while in `/ask` mode or before the gate reply.
+Every emitted command must be aider-runnable: a single line (collapse
+`for`/`while`/`if` and heredocs into one line with `;` separators — aider
+executes replies line-by-line, so a multi-line block runs as broken
+fragments), in a fenced code block tagged with a shell language (for example,
+`bash`), with no prefix such as `/run`. Template blocks that only document a
+pattern (e.g., the log-redirect pattern above) are not executable requests
+and are exempt.
+
 When asking the user to run verification commands, output each command
 in a fenced code block tagged with a shell language (for example, `bash`),
 with no prefix such as `/run`, so aider recognizes it in the response
