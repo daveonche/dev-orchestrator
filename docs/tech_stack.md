@@ -121,7 +121,7 @@ Components baked into `.agent/Dockerfile.aider` Layers F–H for the
 | naabu | `2.3.2` (VERIFY) | exact, checksums.txt-gated (GitHub release) | Layer G |
 | semgrep | `1.86.0` (VERIFY) | exact, PyPI, isolated `/opt/pentest-venv` | Layer H |
 | bandit | `1.8.2` (VERIFY) | exact, PyPI, isolated `/opt/pentest-venv` | Layer H |
-| Strix skills (methodology) | commit `4ac5dc65e4c02afc8fdc22878716a83d481f00fb` | vendored + adapted, see provenance (3 of 9 vendored) | `.agent/specs/pentest/references/strix-skills/` |
+| Strix skills (methodology) | commit `4ac5dc65e4c02afc8fdc22878716a83d481f00fb` | vendored + adapted, see provenance (6 of 9 vendored) | `.agent/specs/pentest/references/strix-skills/` |
 
 Notes:
 
