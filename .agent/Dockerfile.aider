@@ -170,6 +170,17 @@ RUN case "${TARGETARCH}" in \
 RUN --mount=type=cache,target=/root/.cache/pip \
     /venv/bin/python3 -m pip install pytest==8.3.5
 
+# ---- Layer D4: de-shadow httpx (venv console-script rename) ------------------
+# The base image's aider venv ships /venv/bin/httpx — the Python httpx CLI
+# from aider's dependency tree. /venv/bin precedes /usr/local/bin on PATH,
+# so it shadowed the projectdiscovery httpx binary installed in Layer G:
+# bare `httpx` ran the wrong tool (verified 2026-10-26; recorded in
+# docs/tech_stack.md). Renaming to py-httpx lets the pd binary resolve
+# while keeping the Python CLI reachable; aider only imports the httpx
+# library, never its CLI. A missing script fails the build deliberately
+# (fail-closed): a base-image change here must be reviewed, not skipped.
+RUN mv /venv/bin/httpx /venv/bin/py-httpx
+
 # ---- Layer F: pentest toolkit (apt) -----------------------------------------
 # Tools for the $code-pentest workflow (.agent/workflows/code/pentest/;
 # methodology vendored from Strix — see .agent/specs/pentest/). nmap stays

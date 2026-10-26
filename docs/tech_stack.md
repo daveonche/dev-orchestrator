@@ -90,6 +90,7 @@ the pin nature each follows.
 | ShellCheck | `v0.10.0` static binary | exact, SHA256-gated per arch (GitHub release download) | `.agent/Dockerfile.aider` Layer D2 |
 | actionlint | `1.7.12` static binary | exact, SHA256-gated per arch (GitHub release download) | `.agent/Dockerfile.aider` Layer D2b |
 | pytest | `8.3.5` (pip into `/venv`) | exact, matches `.agent/pyproject.toml` | `.agent/Dockerfile.aider` Layer D3 |
+| venv `httpx` CLI rename | `py-httpx` | de-shadowing fix (no version) | `.agent/Dockerfile.aider` Layer D4 |
 | `sentence-transformers/all-MiniLM-L6-v2` | pre-baked to `/opt/hf-cache` | model name; revision resolves at build | `.agent/Dockerfile.aider` Layer B |
 | Node.js | `22.x` via NodeSource apt repo (`node_22.x`) | major line | `.agent/Dockerfile.aider` Layer C |
 | `@mermaid-js/mermaid-cli` | `11.17.0` (npm) | exact | `.agent/Dockerfile.aider` Layer D |
@@ -151,6 +152,12 @@ Notes:
   nmap.org releases is accepted in exchange for distro security
   updates; a pinned nmap.org tarball build was rejected as a heavier
   new pattern.
+- httpx de-shadowing (2026-10-26): the base image's aider venv ships a
+  Python `httpx` console script, and `/venv/bin` precedes
+  `/usr/local/bin` on PATH, so it shadowed the Layer G pd binary
+  (bare `httpx` printed the Python CLI's usage line). Layer D4 renames
+  it to `py-httpx`; aider only imports the httpx library, so the
+  rename is inert outside the toolkit.
 
 Release-currency refresh procedure — policy: every toolkit pin tracks
 the current stable release at update time, never a stale one. Run this
@@ -163,7 +170,9 @@ whenever a pin is suspected stale (resume anchor:
    above). Bump any that moved in `.agent/Dockerfile.aider` (Layer G
    `pd_install` calls, Layer H pip pins) and the table above together.
    Gotcha: `httpx -version` prints a bare version with no "version"
-   keyword, so the per-tool check must not grep for it.
+   keyword, so the per-tool check must not grep for it; if it prints a
+   usage line instead, the venv's Python httpx CLI is shadowing the pd
+   binary again — re-check the Layer D4 rename.
 2. nmap (bookworm 7.93): keep the distro version and confirm the
    accepted-lag note above still stands (recommended), or build a
    pinned nmap.org release tarball (heavier; new build pattern) —
