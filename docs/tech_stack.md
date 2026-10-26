@@ -138,6 +138,32 @@ Notes:
   (PyPI JSON API); the pins above match. Re-run the same lookups when
   upgrading any tool.
 
+Release-currency refresh procedure — policy: every toolkit pin tracks
+the current stable release at update time, never a stale one. Run this
+whenever a pin is suspected stale (resume anchor:
+`docs/workflow_state.md`):
+
+1. Re-verify the seven pins — GitHub `releases/latest` for
+   nuclei/httpx/subfinder/katana/naabu, PyPI JSON for semgrep/bandit
+   (the lookups in the verification record above). Bump any that moved
+   in `.agent/Dockerfile.aider` (Layer G `pd_install` calls, Layer H
+   pip pins) and the table above together. Gotcha: `httpx -version`
+   prints a bare version with no "version" keyword, so the per-tool
+   check must not grep for it.
+2. sqlmap (bookworm-frozen at 1.7.2): check the PyPI `sqlmap` package
+   (provenance + current version); if suitable, move it from Layer F
+   apt to Layer H pip (`/opt/pentest-venv`, symlinked into
+   `/usr/local/bin` like semgrep/bandit); otherwise pin a
+   sqlmapproject/sqlmap tag (SHA via `git ls-remote`) with a wrapper
+   script. Update the table row from distro-managed to exact pin.
+3. nmap (bookworm 7.93): keep the distro version and record the
+   accepted lag here (recommended), or build a pinned nmap.org release
+   tarball (heavier; new build pattern) — decide per refresh.
+4. Verify: `python3 -m pytest tests/test_s4_2_step1.py
+   tests/test_audit_pentest_toolkit.py`; rebuild via
+   `./.agent/start.sh` from the host; re-run the `$code-pentest`
+   [STEP 3] probe and the per-tool version check.
+
 ### Verified Host Runtime Pin
 
 The host runtime that executes the launcher `.agent/ai_assistant.py` is pinned to an exact version.
