@@ -340,7 +340,7 @@ missing, abandon the composed plan and end the reply with the question.
 1. When the user needs to run `/read-only` or `/drop`, output the command inline as part of the sentence — embed the exact command in the sentence, never a paraphrase. Do not execute these commands yourself.
 2. Always wait for explicit user input at [STOP] points; if the input is invalid or unexpected, re-prompt with the original question.
 3. A file counts as in context only if the user has added it during this session. Never assert a file's presence, absence, or freshness from transcript recall. When unsure whether a file is loaded or current, request it — re-loading is cheap and idempotent.
-4. Never construct a file path that is not stated verbatim in a SKILL.md, a routing table, or the transcript. When a required file's location is unknown, ask the user for its actual path instead of inferring it from sibling directories or similar file names.
+4. Never construct a file path that is not stated verbatim in a SKILL.md, a routing table, or the transcript. When a required file's location or name is unknown, do not guess it, infer it from sibling directories or similar file names, or ask the user to add a directory: output a listing command for the user to run (e.g., `git --no-pager ls-files <directory>`) and treat the pasted output as the trusted list of actual paths before requesting any file from it.
 5. Request files in the one-line format: a single space-separated
    `/read-only <path1> <path2>` command for files needed for reading only, and
    a single space-separated `/add <path1> <path2>` command for files that need
