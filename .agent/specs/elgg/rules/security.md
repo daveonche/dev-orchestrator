@@ -53,6 +53,9 @@ Update in place when the underlying topics change.
 - When raw SQL is unavoidable, use prepared statements via
   `elgg()->db` — never interpolate `get_input()` values into query
   strings.
+- Do not interpolate `elgg_get_config('dbprefix')` into raw SQL — the
+  migrate tooling's security sweep flags it as a sql-injection risk;
+  build the query with `QueryBuilder` instead.
 
 ## Hook and event input trust
 
