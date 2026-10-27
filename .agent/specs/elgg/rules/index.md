@@ -47,6 +47,7 @@ authoritative. Status: `pending` = not yet distilled.
 | `river.md` | `river.rst` | activity stream: `elgg_create_river_item()`, view/summary fallback chains, `river_emittable` | done |
 | `routing.md` | `routing.rst` | route registration/names, middleware gatekeepers, generic controllers, `route:rewrite` | done |
 | `search.md` | `search.rst` | `elgg_search()` params, `search:fields`/`search:config` events, livesearch endpoints | done |
+| `security.md` | — (no `security.rst` in `docs/guides/`) | plugin security requirements: CSRF beyond actions, access bypasses, escaping, uploads, SQL, hook input trust | done |
 | `services.md` | `services.rst` | service providers | done |
 | `settings.md` | `settings.rst` | plugin/user/group settings forms, get/set APIs, defaults | done |
 | `themes.md` | `themes.rst` | theming principles, CSS view map, variables/dark mode, view extension/overload, icons | done |
@@ -84,3 +85,6 @@ Enumerate each with the same contents-API call used for `docs/guides/`
   changes.
 - `events-list.rst` is large (~58 KB); distill as a compact lookup list or
   split it if it exceeds the topic-file size cap.
+- `security.md` is the one topic without a manual source page: it
+  distills field-observed security conventions from the elgg-migrate
+  tooling checklist.

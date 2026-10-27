@@ -44,11 +44,15 @@ procedure live in `SKILL.md`; nothing here duplicates them.
 - `references/upgrade-notes/` drives `rules/` updates in the same change.
 - Keep workflow instructions and indexes in `SKILL.md`; do not duplicate
   them here.
+- `rules/security.md` and the upgrade-notes pitfall sections derive
+  from the elgg-migrate tooling checklist (field-observed), not the
+  manual; `references/source-listing-7.1.1.json` remains the single
+  provenance manifest and the freshness check is unchanged.
 
 ## Version
 
-- Current Version: 1.0.1
-- Last Updated: 2026-10-17
+- Current Version: 1.1.0
+- Last Updated: 2026-10-26
 - Stability: Stable
 
 ## Sync / Validation Checklist
