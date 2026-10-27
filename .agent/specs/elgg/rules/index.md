@@ -80,7 +80,7 @@ Enumerate each with the same contents-API call used for `docs/guides/`
 
 - `index.rst` is the manual's TOC (a `:glob:` toctree); it is not distilled
   as a topic.
-- Baseline contents listing kept at `../references/source-listing-7.1.json`
+- Baseline contents listing kept at `../references/source-listing-7.1.2.json`
   (per-file SHAs and sizes): diff a fresh listing against it to find upstream
   changes.
 - `events-list.rst` is large (~58 KB); distill as a compact lookup list or
