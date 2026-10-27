@@ -339,9 +339,17 @@ missing, abandon the composed plan and end the reply with the question.
 
 1. When the user needs to run `/read-only` or `/drop`, output the command inline as part of the sentence — embed the exact command in the sentence, never a paraphrase. Do not execute these commands yourself.
 2. Always wait for explicit user input at [STOP] points; if the input is invalid or unexpected, re-prompt with the original question.
-3. A file counts as in context only if the user has added it during this session. Never assert a file's presence, absence, or freshness from transcript recall. When unsure whether a file is loaded or current, request it — re-loading is cheap and idempotent.
+3. A file counts as in context only if the user has added it during this session. Never assert a file's presence, absence, or freshness from transcript recall. When unsure whether a file is loaded or current, request it — re-loading is cheap and idempotent. When a file's presence is disputed (by the user or by your own uncertainty), confirm it with a verbatim-quote scan: quote a distinctive line (first heading, sentinel, or a unique phrase) from the copy in context — a quote is evidence, an assertion is not.
 4. Never construct a file path that is not stated verbatim in a SKILL.md, a routing table, or the transcript. When a required file's location or name is unknown, do not guess it, infer it from sibling directories or similar file names, or ask the user to add a directory: output a listing command for the user to run (e.g., `git --no-pager ls-files <directory>`) and treat the pasted output as the trusted list of actual paths before requesting any file from it.
 5. Request files in the one-line format: a single space-separated
    `/read-only <path1> <path2>` command for files needed for reading only, and
    a single space-separated `/add <path1> <path2>` command for files that need
    editing. Never output one command per file.
+6. Ground every meta-claim about the session (a file "was never loaded",
+   earlier analysis "was ungrounded", a prior step "was skipped") in quoted
+   transcript evidence before disclosing it — run the verbatim-quote scan
+   from rule 3 against the trust messages first. A false "not in context"
+   disclosure triggers unnecessary remediation (re-adding files, rewording
+   provenance, void drop proposals) exactly as a false presence claim does.
+   If the transcript does not settle the claim, state what is uncertain
+   instead of asserting either direction.
