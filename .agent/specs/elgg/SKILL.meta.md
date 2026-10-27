@@ -46,13 +46,13 @@ procedure live in `SKILL.md`; nothing here duplicates them.
   them here.
 - `rules/security.md` and the upgrade-notes pitfall sections derive
   from the elgg-migrate tooling checklist (field-observed), not the
-  manual; `references/source-listing-7.1.1.json` remains the single
+  manual; `references/source-listing-7.1.2.json` remains the single
   provenance manifest and the freshness check is unchanged.
 
 ## Version
 
-- Current Version: 1.1.0
-- Last Updated: 2026-10-26
+- Current Version: 1.2.0
+- Last Updated: 2026-10-27
 - Stability: Stable
 
 ## Sync / Validation Checklist

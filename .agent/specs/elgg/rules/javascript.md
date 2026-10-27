@@ -52,12 +52,12 @@ function myplugin_config_page(\Elgg\Event $event) {
 elgg_register_event_handler('elgg.data', 'page', 'myplugin_config_page');
 ```
 
-```js
-define(['elgg'], function(elgg) {
-    var api = elgg.data.myplugin.api;
-    var key = elgg.data.myplugin.key; // "none" or a user's key
-});
-```
+- Gotcha: the upstream manual (unchanged through 7.1.2) still
+  illustrates client access with an AMD `define(['elgg'], ...)`
+  example — AMD was removed in Elgg 6.0, so do not copy it into
+  current code. Read `elgg.data.myplugin.*` from the plugin's ES
+  modules (registered per the ESM conventions at the top of this
+  file).
 
 ## Mapping module names to files
 
