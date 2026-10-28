@@ -87,10 +87,10 @@ details.
   Elgg `2.3.*` or later, the composer patch policy, and the legacy manual
   approach for earlier versions.
 - `references/site-upgrades.md` — site-level upgrade discipline: the five
-  iron laws, the verification-gate inventory (render parity, write paths,
-  plugin composition, dead-upgrade backfill), anonymized-seed footguns,
-  and the production cutover order. Load for any task upgrading an
-  entire installation across a major version.
+  iron laws, the complete verification-gate inventory (the reference file
+  is the authoritative list — never treat a summary here as exhaustive),
+  anonymized-seed footguns, and the production cutover order. Load for
+  any task upgrading an entire installation across a major version.
 - `references/upgrade-notes/` — per-version change list
   (`<from>-to-<to>.md`) that drives updates to `rules/`; load the notes
   for each boundary crossed.

@@ -55,7 +55,7 @@ procedure live in `SKILL.md`; nothing here duplicates them.
 
 ## Version
 
-- Current Version: 1.3.0
+- Current Version: 1.3.1
 - Last Updated: 2026-10-28
 - Stability: Stable
 

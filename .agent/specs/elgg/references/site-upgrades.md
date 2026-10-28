@@ -12,10 +12,11 @@ task crosses a site-level version boundary; per-API change lists live in
 Five rules make a site upgrade recoverable. Violate any one and a bad
 upgrade stops being a rollback and becomes a restoration.
 
-1. **One major version at a time.** 2.3→3.3→4.3→5.1→6.1→7.0. Skipping
-   versions skips the upgrade scripts that migrate schema and data; the
-   site appears to work and then fails weeks later when something
-   touches an un-migrated table.
+1. **One major version at a time.** 2.3→3.3→4.3→5.1→6.1→7.0, then
+   minor-update to the latest stable 7.x per the pack freshness check.
+   Skipping versions skips the upgrade scripts that migrate schema and
+   data; the site appears to work and then fails weeks later when
+   something touches an un-migrated table.
 2. **Latest minor before jumping major.** From 2.3.x you may start on
    3.x; from 2.0.x you may not. Minor releases carry the compatibility
    shims the next major assumes have already run.
@@ -45,6 +46,10 @@ upgrade stops being a rollback and becomes a restoration.
 | 4.x | 4.3 → 5.1 → 6.1 → 7.0 |
 | 5.x | 5.1 → 6.1 → 7.0 |
 | 6.x | 6.1 → 7.0 |
+
+Every chain ends at its last major boundary (7.0); finish with a
+minor-update to the latest stable 7.x per the pack freshness check —
+`rules/` topics apply only to that release.
 
 ## Verification gates
 
