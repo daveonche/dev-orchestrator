@@ -70,9 +70,11 @@ details.
   `capabilities`, `context`, `cron`, `database`, `dont-modify-core`,
   `email`, `errors`, `events-list`, `file-system`, `group-tools`,
   `guidelines`, `helpers`, `i18n`, `javascript`, `menus`, `notifications`,
-  `page-owner`, `permissions-check`, `plugins`, `restore`, `river`,
+  `page-owner`, `permissions-check`, `performance`, `plugins`,
+  `restore`, `river`,
   `routing`, `search`, `security`, `services`, `settings`, `themes`,
-  `upgrading-data`, `views`, `walled-garden`, `web-services`, `widgets`
+  `testing`, `upgrading-data`, `views`, `walled-garden`, `web-services`,
+  `widgets`
 - `events-list/`: `access`, `actions-ajax`, `entities`, `files`,
   `notifications`, `other`, `permissions`, `routing`, `search`, `system`,
   `users`, `views`

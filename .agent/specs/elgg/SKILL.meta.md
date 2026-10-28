@@ -47,8 +47,12 @@ procedure live in `SKILL.md`; nothing here duplicates them.
   them here.
 - `rules/security.md` and the upgrade-notes pitfall sections derive
   from the elgg-migrate tooling checklist (field-observed), not the
-  manual; `references/source-listing-7.1.2.json` remains the single
-  provenance manifest and the freshness check is unchanged.
+  manual; `rules/performance.md` and `rules/testing.md` distill the
+  elgg-benchmark and elgg-test-writer skills from the upstream store
+  (`tmp/upstream/elgg-llm-skills` — read-only, never edit it);
+  `references/source-listing-7.1.2.json` remains the single provenance
+  manifest for manual-sourced topics and the freshness check is
+  unchanged.
 - `references/site-upgrades.md` distills the elgg-site-upgrade skill
   (iron laws, verification gates, anonymized-seed footguns, cutover);
   keep it self-contained with no skill-tree paths. The upstream
@@ -58,7 +62,7 @@ procedure live in `SKILL.md`; nothing here duplicates them.
 
 ## Version
 
-- Current Version: 1.3.1
+- Current Version: 1.4.0
 - Last Updated: 2026-10-28
 - Stability: Stable
 
