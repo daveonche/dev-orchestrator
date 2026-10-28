@@ -222,6 +222,39 @@ announce any droppables with the single `/drop` line, so context is freed
 before new files are loaded. If nothing is droppable, say so in one line and
 proceed with the request.
 
+## Upstream Materials
+
+`tmp/upstream/` is the dedicated store for upstream source material:
+external repositories cloned or copied there (e.g.,
+`tmp/upstream/elgg-llm-skills`) to provide concrete knowledge for
+orchestrator-guided work. It is never checked into git.
+
+- General purpose: ground any task that needs concrete knowledge —
+  spec-pack distillation, code review, migration or upgrade guidance,
+  framework questions — not only spec-pack work. This section is
+  project-agnostic and applies as written in any project using this
+  `.agent/`.
+- Temporary but recoverable: contents live under `tmp/` and may be
+  cleaned up when no longer needed — by explicit user decision, never
+  by the orchestrator. If material is missing (never stored, or cleaned
+  up earlier) and a task needs it, ask the user to clone or copy it
+  back into `tmp/upstream/<name>/`; never substitute memory or
+  invention for the missing source.
+- Read-only: never edit, modify, or delete anything under
+  `tmp/upstream/`. Cite or distill its concrete knowledge into the task
+  output; when a distillation feeds a spec pack, record the upstream
+  version covered.
+- Never `/add` a file under `tmp/upstream/` for editing; request
+  upstream files with `/read-only` only.
+- Never commit or force-add (`git add -f`) anything under
+  `tmp/upstream/`; the store must stay untracked. If
+  `git --no-pager status --porcelain` ever lists paths under
+  `tmp/upstream/`, stop and fix the ignore rule before proceeding.
+- Keep the store gitignored: if
+  `git --no-pager check-ignore -v tmp/upstream/<probe>` reports no
+  rule, add `tmp/upstream/` to `.gitignore` before storing material
+  there.
+
 ## Workflow Orchestration Mode
 
 When you see `$<category>-<promptname>`, activate this role:
