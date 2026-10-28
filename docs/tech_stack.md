@@ -127,37 +127,15 @@ Components baked into `.agent/Dockerfile.aider` Layers F–H for the
 
 Notes:
 
-- Layer G verifies every release asset against the release's
-  `checksums.txt` before extraction; to upgrade a tool, bump its version
-  in the `pd_install` call and re-verify.
-- Layer H is deliberately isolated from the aider `/venv`: semgrep's
-  dependency tree must never resolve against aider's own pins.
-- sqlmap's venv entry point is symlinked into `/usr/local/bin` like
-  semgrep/bandit, so the runtime user resolves the pinned PyPI version
-  on PATH; the bookworm apt package it replaced was frozen at 1.7.2.
-- nmap stays distro-managed: bookworm security updates cover it and the
-  version lag vs. nmap.org releases is accepted (recorded below).
-- nuclei templates are not baked; they download on first use into the
-  writable `/home/.cache` mount.
-- Verification record (2026-10-26): `releases/latest` lookups returned
-  nuclei `3.11.1`, httpx `1.12.0`, subfinder `2.17.0`, katana `1.8.0`,
-  naabu `2.6.1` (GitHub API) and semgrep `1.182.1`, bandit `1.9.4`,
-  sqlmap `1.10.10` (PyPI JSON API; homepage `https://sqlmap.org`
-  confirms the official package); the pins above match. Re-run the
-  same lookups when upgrading any tool.
-- sqlmap migration (2026-10-26): moved from Layer F apt
-  (bookworm-frozen 1.7.2) to Layer H pip at `1.10.10`, symlinked into
-  `/usr/local/bin` like semgrep/bandit.
-- nmap decision (2026-10-26): bookworm's 7.93 kept; the lag vs.
-  nmap.org releases is accepted in exchange for distro security
-  updates; a pinned nmap.org tarball build was rejected as a heavier
-  new pattern.
-- httpx de-shadowing (2026-10-26): the base image's aider venv ships a
-  Python `httpx` console script, and `/venv/bin` precedes
-  `/usr/local/bin` on PATH, so it shadowed the Layer G pd binary
-  (bare `httpx` printed the Python CLI's usage line). Layer D4 renames
-  it to `py-httpx`; aider only imports the httpx library, so the
-  rename is inert outside the toolkit.
+- Layer G verifies every release asset against the release's `checksums.txt` before extraction; to upgrade a tool, bump its version in the `pd_install` call and re-verify.
+- Layer H is deliberately isolated from the aider `/venv`: semgrep's dependency tree must never resolve against aider's own pins.
+- sqlmap's venv entry point is symlinked into `/usr/local/bin` like semgrep/bandit, so the runtime user resolves the pinned PyPI version on PATH; the bookworm apt package it replaced was frozen at 1.7.2.
+- nmap stays distro-managed: bookworm security updates cover it and the version lag vs. nmap.org releases is accepted (recorded below).
+- nuclei templates are not baked; they download on first use into the writable `/home/.cache` mount.
+- Verification record (2026-10-26): `releases/latest` lookups returned nuclei `3.11.1`, httpx `1.12.0`, subfinder `2.17.0`, katana `1.8.0`, naabu `2.6.1` (GitHub API) and semgrep `1.182.1`, bandit `1.9.4`, sqlmap `1.10.10` (PyPI JSON API; homepage `https://sqlmap.org` confirms the official package); the pins above match. Re-run the same lookups when upgrading any tool.
+- sqlmap migration (2026-10-26): moved from Layer F apt (bookworm-frozen 1.7.2) to Layer H pip at `1.10.10`, symlinked into `/usr/local/bin` like semgrep/bandit.
+- nmap decision (2026-10-26): bookworm's 7.93 kept; the lag vs. nmap.org releases is accepted in exchange for distro security updates; a pinned nmap.org tarball build was rejected as a heavier new pattern.
+- httpx de-shadowing (2026-10-26): the base image's aider venv ships a Python `httpx` console script, and `/venv/bin` precedes `/usr/local/bin` on PATH, so it shadowed the Layer G pd binary (bare `httpx` printed the Python CLI's usage line). Layer D4 renames it to `py-httpx`; aider only imports the httpx library, so the rename is inert outside the toolkit.
 
 Release-currency refresh procedure — policy: every toolkit pin tracks
 the current stable release at update time, never a stale one. Run this
