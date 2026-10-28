@@ -27,6 +27,7 @@ procedure live in `SKILL.md`; nothing here duplicates them.
   - The pack entry `.agent/specs/elgg/SKILL.md`
   - Task-matched rule files from `rules/`, loaded on demand
   - `references/upgrading.md` for any work crossing a version boundary
+  - `references/site-upgrades.md` for site-level upgrade work
 
 ## Prompt Characteristics
 
@@ -48,11 +49,14 @@ procedure live in `SKILL.md`; nothing here duplicates them.
   from the elgg-migrate tooling checklist (field-observed), not the
   manual; `references/source-listing-7.1.2.json` remains the single
   provenance manifest and the freshness check is unchanged.
+- `references/site-upgrades.md` distills the elgg-site-upgrade skill
+  (iron laws, verification gates, anonymized-seed footguns, cutover);
+  keep it self-contained with no skill-tree paths.
 
 ## Version
 
-- Current Version: 1.2.0
-- Last Updated: 2026-10-27
+- Current Version: 1.3.0
+- Last Updated: 2026-10-28
 - Stability: Stable
 
 ## Sync / Validation Checklist

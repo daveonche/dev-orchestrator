@@ -2,8 +2,8 @@
 
 Delta conventions for projects using Elgg. Use when writing or reviewing
 Elgg plugins, events, views, routing, web services, or upgrades. Triggers
-on "Elgg plugin", "Elgg upgrade", or Elgg reported by Project Framework
-Detection.
+on "Elgg plugin", "Elgg site upgrade", "Elgg upgrade", or Elgg reported
+by Project Framework Detection.
 
 **Source:** distilled from the Elgg manual:
 <https://learn.elgg.org/en/stable/guides/index.html>
@@ -86,6 +86,11 @@ details.
   standard procedure applied one major version at a time from any site on
   Elgg `2.3.*` or later, the composer patch policy, and the legacy manual
   approach for earlier versions.
+- `references/site-upgrades.md` — site-level upgrade discipline: the five
+  iron laws, the verification-gate inventory (render parity, write paths,
+  plugin composition, dead-upgrade backfill), anonymized-seed footguns,
+  and the production cutover order. Load for any task upgrading an
+  entire installation across a major version.
 - `references/upgrade-notes/` — per-version change list
   (`<from>-to-<to>.md`) that drives updates to `rules/`; load the notes
   for each boundary crossed.
