@@ -51,7 +51,10 @@ procedure live in `SKILL.md`; nothing here duplicates them.
   provenance manifest and the freshness check is unchanged.
 - `references/site-upgrades.md` distills the elgg-site-upgrade skill
   (iron laws, verification gates, anonymized-seed footguns, cutover);
-  keep it self-contained with no skill-tree paths.
+  keep it self-contained with no skill-tree paths. The upstream
+  elgg-llm-skills repository is source material only: distill concrete
+  knowledge from it into the pack; never edit or modify the skill repo
+  itself.
 
 ## Version
 
