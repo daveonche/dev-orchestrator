@@ -61,6 +61,10 @@ must be added for editing, request them under a single `/add` command on one
 line, space-separated (e.g., `/add <path1> <path2>`). This mirrors the
 one-line droppables format under Context Hygiene.
 
+When requesting a file under `.log/` with `/read-only`, prefer the
+failure tail captured by the redirect pattern, or a bounded pipeline
+output, over the whole file.
+
 ## Placeholder Convention
 
 Bracketed items inside quoted output templates (e.g., `[promptname]`,
@@ -336,6 +340,69 @@ mkdir -p .log && [command] > .log/[name].log 2>&1 && echo OK || { echo FAILED; g
 Replace `[command]` and `[name]` with the actual values; the `OK`/`FAILED`
 status line (plus at most the grep tail on failure) is the only output
 that enters context.
+
+**Mandatory trigger check (self-check, hard rule):** Before outputting any
+executable command, run this check mechanically — no judgment about
+expected output size:
+
+1. Match the command against the always-redirect classes below. The first
+   token of the command decides; arguments are ignored.
+2. If it matches, the command is never emitted bare. Rewrite it into the
+   redirect pattern above, with `mkdir -p .log &&` as the mandatory
+   prefix.
+3. If it matches no class, it may run bare.
+
+Always-redirect classes:
+
+- **Build/test/lint runners:** `make`, `pytest`, `cargo build|test|check`,
+  `./gradlew`, `mvn`, `go build|test`, `cmake --build`
+- **Test suites via package manager:** `npm test|run`, `yarn test`,
+  `pnpm test`, `composer test`
+- **Package/dependency installs and syncs:** `pip install`,
+  `npm install|ci`, `yarn install`, `cargo install|update`,
+  `apt-get install|update`, `docker compose build|pull|up`
+- **Bulk output readers:** `cat`, `head`, `tail` (without `-f`),
+  `grep`/`rg` without `-l`, `diff` — these are **never emitted bare**
+  unless the target path passes the file classification below, which is
+  mechanical:
+  1. **Denylist (never bare):** the target is under `.log/`. Sanctioned
+     access paths only:
+     a. the redirect pattern's own failure-tail
+        `grep -nE "ERROR|E: |404" <path> | tail -n 20`;
+     b. a request via `/read-only <path>` (user-initiated add);
+     c. a pipeline whose final stage bounds the output —
+        `| tail -n <N>` or `| wc -l` (an exception grep reading a log
+        must be given its own redirect line per the trigger check; note
+        reading a log's redirect back into `.log/` is circular and
+        forbidden).
+  2. **Size proof (bare allowed):** a prior command's output this session
+     printed the file's byte size (`ls -l <path>`, `wc -c <path>`) and it
+     was **≤ 4096 bytes**. Otherwise the command is treated as
+     always-redirect: write it into `.log/<name>.log` via the redirect
+     pattern and analyze it with `/read-only` afterwards if needed.
+  3. **Everything else (default):** always-redirect. When no size proof
+     exists, absence of evidence is the trigger — do not substitute an
+     estimate.
+- **Installers and scaffolders:** `curl`/`wget` whose output is not
+  redirected elsewhere, `docker build`, `terraform apply|plan`,
+  `composer install|update`
+
+Exempt: commands whose entire purpose is a bounded answer already captured
+elsewhere (`wc`, `ls` of a single directory, `grep -l`, `tail -n` /
+`wc -l` as the final stage of a bounded pipeline, the redirect pattern's
+own `OK`/`FAILED` status line and failure-tail `grep`).
+
+**Self-check phrasing (compare to the git rule):** "Does the first token
+match an always-redirect class? If yes, it must start with
+`mkdir -p .log &&` — unless the target passes the file classification
+(denylist branch → sanctioned access path; size-proof branch → bare
+allowed; default → redirect)." Both this and the git check are single
+pattern matches on the command's head — if you find yourself estimating
+line counts or thinking "it's probably short," the check has already
+failed: that reasoning is the bypass. A command matching a class is
+redirected *because it matches*, not because you believe its output is
+small. All three classification branches are resolved by pattern match or
+prior command output, never by reasoning about the file's likely contents.
 
 **Container HTTP checks (hard rule):** Aider runs in its own container:
 `curl localhost:<published-port>` (e.g. 3010/3011) hits aider's own loopback —
