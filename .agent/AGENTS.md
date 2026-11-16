@@ -431,6 +431,30 @@ with no prefix such as `/run`, so aider recognizes it in the response
 and offers to execute it directly. Then ask the user to reply "done" —
 do not ask them to paste output manually.
 
+**Empty-result sentinel (hard rule):** Every emitted command MUST end with an
+explicit empty condition, so a pasted empty result is self-describing instead
+of silent — the analyzing LLM must never have to guess whether "nothing" means
+"no matches" or "command never ran". For pipelines and filters, append
+`|| echo "EMPTY: <what empty means here>"`; for plain commands whose stdout may
+be empty, capture and test on one line:
+`out=$(<command>); [ -n "$out" ] && printf '%s\n' "$out" || echo "EMPTY: <meaning>"`.
+The log-redirect pattern's `&& echo OK || { echo FAILED; ... }` tail already
+satisfies this rule. Example:
+
+```bash
+out=$(git --no-pager status --porcelain); [ -n "$out" ] && printf '%s\n' "$out" || echo "EMPTY: working tree clean"
+```
+
+**Self-contained sequences (hard rule):** Never point the user at a procedure
+from a past session, a story, or memory (e.g., "the same commands as before",
+"as in the story's step 2"). Every request to run commands emits the complete
+sequence inline, in execution order, each line aider-runnable per the
+code-mode gate. Ask the user only for values no repository document records:
+before asking for any value (path, branch, version, service name), check the
+stated sources; if a repository document records it, request that document
+with `/read-only` (or emit the listing command, Critical Rule 4) instead of
+asking. User recall is not a trusted source.
+
 ## Stop on Missing Input (hard rule)
 
 When a reply requires a value, file, or decision that is not in context
@@ -439,8 +463,10 @@ transcript), do NOT reason toward it. Output the specific question(s)
 and [STOP]. Never resolve ambiguity by enumerating hypothetical
 branches, guessing values, or drafting contingent plans for outcomes
 the user has not chosen. Self-check before sending any reply: "Is every
-required input present or explicitly asked for?" If a required input is
-missing, abandon the composed plan and end the reply with the question.
+required input present, recorded in a repository document I have requested, or
+— only because no repository document records it — explicitly asked for?" If a
+required input is missing, abandon the composed plan and end the reply with
+the question.
 
 ## Critical Rules
 
