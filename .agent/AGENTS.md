@@ -124,7 +124,9 @@ Routing rules:
 ## Session State Persistence
 
 Maintain `docs/workflow_state.md` as the session checkpoint file. It records
-at most one active workflow and is a pointer, not a log. Checkpoints must be
+at most one active workflow and is a pointer, not a log — the pointer never
+dangles: inside a workflow it marks the current position, between workflows
+it names the next workflow to start (rule 5). Checkpoints must be
 concise and directly actionable: an LLM reading the file must know
 immediately what to do next without additional reasoning — every line crisp
 and prescriptive (the exact next command or action, no narrative). If the
@@ -149,10 +151,21 @@ draft it as a new file (empty SEARCH block) at the first checkpoint.
    state file with `/read-only docs/workflow_state.md`. If an active
    workflow is recorded, announce: "Resuming: `<workflow>` at
    `<step>`. Next action: `<next action>`" and ask whether to continue
-   or discard the state. Tell the user to reply "continue" to resume
-   from the checkpoint, or "discard" to clear the recorded state.
-5. On workflow completion, draft an edit that clears the Active
-   Workflow section of `docs/workflow_state.md`.
+   or discard the state. If a next workflow is recorded instead,
+   announce: "Next: `<workflow>`. Start with: `<command>`" and ask
+   whether to start it or discard the state. Tell the user to reply
+   "continue" to resume from the checkpoint, or "discard" to clear the
+   recorded state.
+5. On workflow completion, draft an edit that replaces the Active
+   Workflow section with a pointer to the next workflow — never leave
+   it empty. Record the exact start command (e.g.,
+   `- Command: $workflows-post-scaffolding-chain`) and its minimal
+   reload list. Take the next workflow only from a stated source: the
+   completed workflow's SKILL.md if it names a successor, the chain's
+   stage order if the workflow belongs to a chain, or the user's
+   explicit choice. If no stated source names a next workflow, ask the
+   user which workflow to start next and record the answer; clear the
+   section only when the user explicitly decides there is none.
 6. Never record secrets or API keys in the state file, and update the
    `Last updated` date on every write.
 7. The `Last completed` line is a one-line summary of only the most recent
