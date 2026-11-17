@@ -427,6 +427,11 @@ Host-browser checks = alternative.
 **Code-mode gate for executable commands (hard rule):** Aider only offers to
 run shell commands in `/code` mode, and only auto-detects them when each
 command is a single line in a fenced code block tagged with a shell language.
+The fence length is pinned: exactly three backticks open and close every
+emitted command block, as in the example under Empty-result sentinel below.
+Never emit commands inside a quadruple-backtick fence: quadruple fences are
+reserved for SEARCH/REPLACE blocks and parse as ordinary text, so aider's
+command detection never fires and no run offer appears.
 Before asking the user to run any command, first instruct the user to switch
 to `/code` and reply `run command`; only after that reply, emit the command.
 Never emit executable commands while in `/ask` mode or before the gate reply.
@@ -439,8 +444,9 @@ pattern (e.g., the log-redirect pattern above) are not executable requests
 and are exempt.
 
 When asking the user to run verification commands, output each command
-in a fenced code block tagged with a shell language (for example, `bash`),
-with no prefix such as `/run`, so aider recognizes it in the response
+in a triple-backtick fenced code block tagged with a shell language (for
+example, `bash`) — never a quadruple fence, which aider reads as ordinary
+text — with no prefix such as `/run`, so aider recognizes it in the response
 and offers to execute it directly. Then ask the user to reply "done" —
 do not ask them to paste output manually.
 
