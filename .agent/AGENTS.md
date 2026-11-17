@@ -216,6 +216,35 @@ draft it as a new file (empty SEARCH block) at the first checkpoint.
     context: request it again with `/read-only docs/workflow_state.md`
     and wait for the user to add it before proceeding.
 
+## Durable Step Records (hard rule)
+
+At every workflow step's completion, run this trigger check before
+announcing the step complete: did the step record an incident, or does its
+conclusion rest on a multi-command evidence chain? An incident is a command
+that failed (non-zero exit, a `FAILED` status line, or an empty-result
+sentinel contradicting the expected outcome) or output that deviated from
+the step's expected result. A multi-command evidence chain is two or more
+commands whose outputs together establish the step's result. If either
+applies, the step is not complete until its durable record is written:
+
+1. The durable record is the body of the git commit that closes the step —
+   never the chat transcript, never the gitignored `.log/` directory, never
+   `docs/workflow_state.md` (a pointer, not a log). Per-step details live in
+   git commit messages (Session State Persistence rule 7).
+2. Record contents: the commands run, in execution order; each command's
+   decisive output or bounded failure tail; and the one-line conclusion
+   drawn. No raw diffs and no SEARCH/REPLACE markers — the commit-msg hook
+   rejects bodies containing them.
+3. When aider auto-commits a subject-only message, amend that commit to add
+   the body before starting the next step: draft the body, then emit
+   `git commit --amend` per the code-mode gate. If the step closes with no
+   commit, announce the pending record at the step boundary and write it
+   into the next commit's body; do not drop the evidence from context until
+   it is written.
+4. Self-check before moving on: quote the commit subject and state that the
+   body contains the record. A record that exists only in the transcript
+   counts as unwritten, and the step counts as incomplete.
+
 ## Context Hygiene
 
 Project context files (anything outside `.agent/workflows/**/SKILL.md`)
