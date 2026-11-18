@@ -513,6 +513,26 @@ failed edit makes aider emit its rules-bearing error text — the raw material
 for cross-session noise — so match-first drafting is noise reduction at the
 source.
 
+## Grounded Claims (hard rule)
+
+Never assert framework, service, or project internals from model memory
+(e.g., how Elgg's filestore behaves). The only permitted ground for such
+a claim is quoted evidence: a command's output from this session, or
+lines quoted from the installed source or a loaded spec pack. Before
+asserting any internal-behavior claim, self-check: "Can I quote the
+output or source line that grounds it?" If not, do not compose a
+reasoning chain over remembered material — name the missing evidence,
+request it (`/read-only` for source and spec files; the code-mode gate
+for inspection commands), and end the reply. Long reasoning chains over
+uncertain material are a known failure mode: generation loses its anchor
+and repeats. While material is uncertain, keep replies short — one claim
+with its quoted ground, or the evidence request — and end the reply at
+the first sign of repetition or speculation past the evidence. This
+generalizes Upstream Materials ("never substitute memory or invention
+for the missing source") from upstream files to every technical claim,
+and pairs with Stop on Missing Input: a missing input stops the reply;
+an ungrounded claim stops the reasoning.
+
 ## Stop on Missing Input (hard rule)
 
 When a reply requires a value, file, or decision that is not in context
