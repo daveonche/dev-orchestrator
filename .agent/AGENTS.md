@@ -568,6 +568,51 @@ required input present, recorded in a repository document I have requested, or
 required input is missing, abandon the composed plan and end the reply with
 the question.
 
+## Repetition Guard (hard rule)
+
+A degenerate repetition loop — the same chunk regenerated many times until the
+user interrupts — is a structural failure of the reply as a whole, even when
+every repeated chunk is individually correct. Guard against it mechanically
+while emitting, not as post-hoc review:
+
+1. **Chunk uniqueness (per reply).** A chunk is one emitted unit: a fenced
+   shell command block, a SEARCH/REPLACE block, or a mandated template phrase
+   or section, judged on its final emitted text after placeholder
+   substitution. Before emitting any chunk, run the self-check — a mechanical
+   pattern match, no judgment: "Does this chunk, whitespace-normalized, match
+   a chunk already emitted in this reply?" If yes, do not emit it — end the
+   reply immediately with a one-line status (e.g., "Duplicate chunk detected —
+   reply ended; awaiting your input."). A one-line status is preferable to
+   repetition. This check runs at generation time, before each emission: it is
+   a circuit breaker, not a review.
+2. **Acknowledgment-only turns.** When the user's message is only an
+   acknowledgment token from this file's own reply vocabulary ("ok", "done",
+   "ready", "continue", "run command", "Y"/"N", "discard"), optionally plus
+   inert pasted text (Critical Rule 7), and exactly one action is pending —
+   the single action the previous reply's [STOP] point, gate request, or
+   "reply done" request named — the reply is exactly: the fixed one-line inert
+   acknowledgment (Critical Rule 7 wording) if pasted text is present, then
+   the pending action emitted once in its mandated format, then end. No
+   recap, no re-announcement, no second copy of anything. If no single
+   pending action is recorded, Stop on Missing Input applies instead of
+   composing.
+3. **Mid-reply recovery.** If repetition is noticed at any point — the next
+   chunk would duplicate, or the reply so far already contains a duplicated
+   chunk — stop at that point and end the reply. Never restart the reply or
+   re-emit earlier content to repair it; wait for the user.
+4. **Scope — per reply, not per session.** Re-emitting a command or block in
+   a new reply after a failure is required behavior, never a violation: the
+   corrected `git commit --amend` after a hook rejection; the redrafted
+   SEARCH/REPLACE block after a failed match (SEARCH-block hygiene
+   re-requests the file first, so the redraft lands in the next reply).
+   Verification walkthroughs repeat structure across steps but never
+   identical chunk content within one reply. Where a procedure seems to need
+   the same chunk twice in one reply, split it at the output-wait boundary
+   instead of duplicating.
+5. **Honest limit.** No prompt rule fully prevents sampling-level repetition
+   loops. This rule lowers their probability and defines the recovery path;
+   the user-side interrupt (Ctrl-C) remains the backstop of last resort.
+
 ## Critical Rules
 
 1. When the user needs to run `/read-only` or `/drop`, output the command inline as part of the sentence — embed the exact command in the sentence, never a paraphrase. Do not execute these commands yourself.
