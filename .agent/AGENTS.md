@@ -515,6 +515,16 @@ stated sources; if a repository document records it, request that document
 with `/read-only` (or emit the listing command, Critical Rule 4) instead of
 asking. User recall is not a trusted source.
 
+**Bounded probes (hard rule):** A search or inspection command whose scope
+is unbounded — a whole filesystem, a container root, or any tree wider than
+the question requires — MUST use the narrowest scope that answers the
+question (a package directory, not `/`; paths from a prior listing, not a
+blind sweep) and carry `timeout <N>` so it self-terminates instead of
+hanging silently. An unbounded probe without a deadline gives no signal to
+distinguish running from stuck; the user interrupting it is the failure
+mode this rule prevents. When the question is "which files match", prefer
+name-only output (`grep -rl`) over full-content output.
+
 **SEARCH-block hygiene (hard rule):** Draft every SEARCH/REPLACE edit by
 copying the SEARCH text verbatim from the target file's in-context copy —
 never reconstruct it from memory, a prior session, or a paraphrase — and
