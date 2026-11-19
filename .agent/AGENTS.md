@@ -236,14 +236,26 @@ applies, the step is not complete until its durable record is written:
    drawn. No raw diffs and no SEARCH/REPLACE markers — the commit-msg hook
    rejects bodies containing them.
 3. When aider auto-commits a subject-only message, amend that commit to add
-   the body before starting the next step: draft the body, then emit
-   `git commit --amend` per the code-mode gate. If the step closes with no
-   commit, announce the pending record at the step boundary and write it
-   into the next commit's body; do not drop the evidence from context until
-   it is written.
+   the body before starting the next step. Body-command pairing (hard rule):
+   a drafted commit body is inert until the command that writes it is
+   emitted — in the same reply as the draft, request the code-mode gate;
+   after the gate reply, emit the command immediately (`git commit --amend`
+   for an existing subject-only commit; the body carried inside the commit
+   command itself when the commit is not yet created). Announcing a drafted
+   or pending body without emitting its command, or deferring the command to
+   a later reply, is a violation; the step is not complete until the command
+   has run and its output is confirmed. Before amending, verify the target
+   commit is HEAD and unpushed (no `origin/` decoration in
+   `git --no-pager log -1 --format='%h %d %s'`); if it is pushed, write the
+   body into the next new commit instead. If the step closes with no commit,
+   announce the pending record at the step boundary and write it into the
+   next commit's body; do not drop the evidence from context until it is
+   written.
 4. Self-check before moving on: quote the commit subject and state that the
-   body contains the record. A record that exists only in the transcript
-   counts as unwritten, and the step counts as incomplete.
+   body contains the record, citing the emitted command's confirmation
+   output as the evidence. A record that exists only in the transcript — or
+   a drafted body whose command was never emitted — counts as unwritten, and
+   the step counts as incomplete.
 
 ## Context Hygiene
 
